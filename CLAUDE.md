@@ -10,46 +10,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **This repository is `porto-core`, a detached fork of `aptos-core` pinned at tag `aptos-node-v1.45.5`.**
 
-It is being stripped down and rebranded into **Porto Chain**, the settlement and accounting layer for
-Porto Labs. Everything below the "Project Overview" heading describes the upstream Aptos codebase and
-remains accurate. This section describes what we are doing to it and why.
+It is being stripped down and rebranded into **Porto Chain**, the settlement and accounting layer
+for Porto Labs. See `README.md` for project context (what Porto is, architecture intent, roadmap).
 
-Forking is deliberate. Consensus is a solved, audited problem. Engineering effort goes into the
-accounting layer, not into reinventing BFT.
-
-### What Porto is
-
-Porto is decentralized music streaming infrastructure. Artists, labels, publishers, and operators run
-edge nodes that cache and stream licensed audio, replacing a centralized CDN. Every play is logged
-on-chain, giving transparent, auditable, real-time royalties.
-
-Payout split: 70% to rights holders, 15% to node operators, remainder to protocol treasury.
-
-Porto is explicitly **not** an NFT music project. Prior crypto music projects tokenized ownership
-without replacing delivery. Porto rebuilds the distribution layer itself. This is a positioning
-commitment as much as a technical one, and it drives what gets removed from this codebase.
-
-### Architecture intent
-
-Porto Chain is an **app-chain**, not a general-purpose L1. Move is used as a verified accounting VM,
-not as a dApp platform.
-
-Eventual on-chain logic is three modules only:
-
-1. **Stream Accounting** - receives attestations, maintains canonical play counts
-2. **Payout Splitter** - applies royalty splits, handles multiple rights holders per track
-3. **Governance Parameters** - fee percentages, thresholds, upgrade authorization
-
-Everything behind versioned upgrades. Minimal attack surface.
-
-Node modes from a single configurable binary: CDN mode (caches content, serves streams, submits
-attestations), Validator mode (consensus plus accounting VM), Full mode (both, the default at launch).
-
-Content layer is simple origin storage (S3-style) with node-level caching. No IPFS. This is licensed
-music from opted-in artists, not permissionless file sharing.
-
-State lives in RocksDB via the existing storage layer. Chain state **is** the ledger. Do not propose
-adding an external database.
+Porto is explicitly **not** an NFT project — this drives what gets removed from this codebase. Move
+is used as a verified accounting VM here, not as a dApp platform. Chain state lives in RocksDB via
+the existing storage layer; chain state **is** the ledger, so do not propose adding an external
+database.
 
 ### What stays (do not remove or gut)
 
@@ -123,9 +90,6 @@ Changes section below. This is required, not optional.
 Stripping and rebranding only. Porto's own Move modules (Stream Accounting, Payout Splitter, Governance
 Parameters) are separate later work. Do not start them.
 
-Phase 1 target is a London testnet: 5 nodes, 100 artists, working streams and payouts. Performance and
-memory optimization is not a concern at that scale. Do not optimize prematurely.
-
 ### Out of scope until told otherwise
 
 - Documentation pass
@@ -139,6 +103,9 @@ memory optimization is not a concern at that scale. Do not optimize prematurely.
 Aptos Core is a layer 1 blockchain written primarily in Rust with Move smart contracts. It's a
 production-grade system with 200+ workspace crates organized into major subsystems: consensus,
 execution, storage, network, mempool, API, and Move VM.
+
+`aptos-move/framework/aptos-token-objects/` (NFT standards) is slated for removal — see Porto Labs
+Fork above.
 
 ## Essential Commands
 
@@ -177,30 +144,6 @@ cargo build -p aptos-cached-packages   # REQUIRED: rebuild cached packages
 ./scripts/dev_setup.sh              # Install all build dependencies
 ./scripts/dev_setup.sh -y           # Include Move Prover tools (z3, boogie)
 ```
-
-## Architecture Overview
-
-### Core Transaction Flow
-1. **API Layer** (`api/`) - REST endpoints receive transactions
-2. **Mempool** (`mempool/`) - Transaction validation and ordering
-3. **Consensus** (`consensus/`) - Byzantine fault-tolerant ordering
-4. **Execution** (`execution/`) - Orchestrates VM execution
-5. **Block Executor** (`aptos-move/block-executor/`) - Parallel execution via Block-STM
-6. **Move** (`third_party/move/`) - Executes Move bytecode, Compiles Move, Verifies Move
-7. **Storage** (`storage/`) - Persistent state (JellyfishMerkleTree)
-8. **State Sync** (`state-sync/`) - Blockchain synchronization
-
-### Move Framework Stack
-- `aptos-move/framework/move-stdlib/` - Core Move stdlib
-- `aptos-move/framework/aptos-stdlib/` - Aptos-specific stdlib
-- `aptos-move/framework/aptos-framework/` - Core chain modules (coin, account, staking)
-- `aptos-move/framework/aptos-token-objects/` - NFT standards **(Porto: slated for removal)**
-
-### Key Crates
-- `aptos-types` - Core type definitions used everywhere
-- `aptos-vm` - VM integration and transaction execution
-- `aptos-crypto` - Cryptographic primitives (security-critical)
-- `aptos-api-types` - API request/response types
 
 ## Safety-Critical Code
 
