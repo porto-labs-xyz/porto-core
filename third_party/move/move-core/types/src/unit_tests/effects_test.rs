@@ -1,0 +1,34 @@
+// Parts of the file are Copyright (c) The Diem Core Contributors
+// Parts of the file are Copyright (c) The Move Contributors
+// Parts of the file are Copyright (c) Aptos Foundation
+// All Aptos Foundation code and content is licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use crate::effects::Op;
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct TestError;
+
+#[test]
+fn test_ops() {
+    let f = |i: u32| -> u32 { i + 10 };
+
+    // Test map preserves op variant.
+    assert_eq!(Op::New(1).map(f), Op::New(11));
+    assert_eq!(Op::Modify(2).map(f), Op::Modify(12));
+    assert_eq!(Op::Delete.map(f), Op::Delete);
+
+    let f = |i: u32| -> anyhow::Result<u32, TestError> { i.checked_sub(10).ok_or(TestError) };
+
+    // Test and_then preserves op variant and returns an error if
+    // function application fails.
+    assert_eq!(Op::New(11).and_then(f), Ok(Op::New(1)));
+    assert_eq!(Op::New(1).and_then(f), Err(TestError));
+    assert_eq!(Op::Modify(12).and_then(f), Ok(Op::Modify(2)));
+    assert_eq!(Op::Modify(2).and_then(f), Err(TestError));
+    assert_eq!(Op::Delete.and_then(f), Ok(Op::Delete));
+
+    // Test data is correctly passed out.
+    assert_eq!(Op::New(1).ok(), Some(1));
+    assert_eq!(Op::Modify(2).ok(), Some(2));
+    assert_eq!(Op::<u32>::Delete.ok(), None);
+}

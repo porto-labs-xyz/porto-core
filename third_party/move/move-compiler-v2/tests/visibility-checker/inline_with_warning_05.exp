@@ -1,0 +1,45 @@
+
+Diagnostics:
+warning: friend inline function `bar` calls `m::foo` which may not be accessible when expanded
+   ┌─ tests/visibility-checker/inline_with_warning_05.move:12:31
+   │
+12 │     public(friend) inline fun bar(): u64 {
+   │                               ^^^ contains calls that may be inaccessible when expanded, e.g., if called from a non-friend of `0xc0ffee::m`
+13 │         0xc0ffee::m::foo() + 0xc0ffee::m::foo()
+   │         ------------------ friend function may not be accessible in all contexts where `bar` can be called
+
+// -- Model dump before first bytecode pipeline
+module 0xc0ffee::m {
+    friend fun foo(): u64 {
+        42
+    }
+} // end 0xc0ffee::m
+module 0xc0ffee::n {
+    friend inline fun bar(): u64 {
+        Add<u64>(m::foo(), m::foo())
+    }
+} // end 0xc0ffee::n
+module 0xc0ffee::o {
+    private fun test(): u64 {
+        42
+    }
+} // end 0xc0ffee::o
+
+// -- Sourcified model before first bytecode pipeline
+module 0xc0ffee::m {
+    friend 0xc0ffee::n;
+    friend fun foo(): u64 {
+        42
+    }
+}
+module 0xc0ffee::n {
+    friend 0xc0ffee::o;
+    friend inline fun bar(): u64 {
+        0xc0ffee::m::foo() + 0xc0ffee::m::foo()
+    }
+}
+module 0xc0ffee::o {
+    fun test(): u64 {
+        42
+    }
+}

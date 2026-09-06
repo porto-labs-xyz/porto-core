@@ -1,0 +1,29 @@
+name: "Docker buildx setup"
+description: Sets up buildx for docker builds
+
+runs:
+  using: composite
+  steps:
+    - name: setup docker context for buildx
+      id: buildx-context
+      shell: bash
+      run: docker context create builders
+
+    - name: setup docker buildx
+      uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # pin v3.12.0
+      with:
+        endpoint: builders
+        version: v0.31.1
+        name: runs-on
+        keep-state: true
+        config-inline: |
+          [worker.oci]
+            gc = true
+            gckeepstorage = 900000000000 # Use 900GB out of 1TB for builder storage
+            [[worker.oci.gcpolicy]]
+              keepBytes = 700000000000 # Use 700GB out of 900GB for cache storage
+              keepDuration = 604800 # Keep cache for 7 days
+              filters = [ "type==source.local", "type==exec.cachemount", "type==source.git.checkout"]
+            [[worker.oci.gcpolicy]]
+              all = true
+              keepBytes = 900000000000

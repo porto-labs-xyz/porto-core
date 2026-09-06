@@ -1,0 +1,72 @@
+// Parts of the file are Copyright (c) The Diem Core Contributors
+// Parts of the file are Copyright (c) The Move Contributors
+// Parts of the file are Copyright (c) Aptos Foundation
+// All Aptos Foundation code and content is licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use crate::summary::ModuleSummary;
+use move_binary_format::CompiledModule;
+use std::io::Write;
+
+pub mod coverage_map;
+pub mod source_coverage;
+pub mod summary;
+
+/// Compute coverage percentage. Returns 100% when there are no instructions (vacuous coverage).
+pub fn coverage_percentage(covered: u64, total: u64) -> f64 {
+    if total == 0 {
+        100f64
+    } else {
+        (covered as f64) / (total as f64) * 100f64
+    }
+}
+
+pub fn format_human_summary<M, F, W: Write>(
+    modules: &[CompiledModule],
+    coverage_map: &M,
+    summary_func: F,
+    summary_writer: &mut W,
+    summarize_functions: bool,
+) where
+    F: Fn(&CompiledModule, &M) -> ModuleSummary,
+{
+    writeln!(summary_writer, "+-------------------------+").unwrap();
+    writeln!(summary_writer, "| Move Coverage Summary   |").unwrap();
+    writeln!(summary_writer, "+-------------------------+").unwrap();
+
+    let mut total_covered = 0;
+    let mut total_instructions = 0;
+
+    for module in modules.iter() {
+        let coverage_summary = summary_func(module, coverage_map);
+        let (total, covered) = coverage_summary
+            .summarize_human(summary_writer, summarize_functions)
+            .unwrap();
+        total_covered += covered;
+        total_instructions += total;
+    }
+
+    writeln!(summary_writer, "+-------------------------+").unwrap();
+    writeln!(
+        summary_writer,
+        "| % Move Coverage: {:.2}  |",
+        coverage_percentage(total_covered, total_instructions)
+    )
+    .unwrap();
+    writeln!(summary_writer, "+-------------------------+").unwrap();
+}
+
+pub fn format_csv_summary<M, F, W: Write>(
+    modules: &[CompiledModule],
+    coverage_map: &M,
+    summary_func: F,
+    summary_writer: &mut W,
+) where
+    F: Fn(&CompiledModule, &M) -> ModuleSummary,
+{
+    writeln!(summary_writer, "ModuleName,FunctionName,Covered,Uncovered").unwrap();
+
+    for module in modules.iter() {
+        let coverage_summary = summary_func(module, coverage_map);
+        coverage_summary.summarize_csv(summary_writer).unwrap();
+    }
+}

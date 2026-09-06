@@ -1,0 +1,9 @@
+processed 1 task
+task 0 lines 1-4:  run --type-args bool [script]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}

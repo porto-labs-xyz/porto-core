@@ -1,0 +1,132 @@
+processed 26 tasks
+task 0 lines 1-342:  publish [module 0x1::SortedLinkedList]
+task 1 lines 346-352:  run --signers 0xA [script]
+task 2 lines 356-362:  run --signers 0xA [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(1),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(3), 9)],
+}
+task 3 lines 366-374:  run --signers 0xB [script]
+task 4 lines 378-386:  run --signers 0xB [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(3),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(4), 9)],
+}
+task 5 lines 390-398:  run --signers 0xC [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(7),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(4), 61)],
+}
+task 6 lines 402-410:  run --signers 0xC [script]
+task 7 lines 414-422:  run --signers 0xD [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(6),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(4), 52)],
+}
+task 8 lines 426-434:  run --signers 0xD [script]
+task 9 lines 438-446:  run --signers 0xF [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(5),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(4), 15)],
+}
+task 10 lines 450-458:  run --signers 0xE [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(6),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(4), 52)],
+}
+task 11 lines 462-470:  run --signers 0xC [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(3),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(4), 9)],
+}
+task 12 lines 474-482:  run --signers 0xE [script]
+task 13 lines 486-492:  run --signers 0xC [script]
+task 14 lines 496-502:  run --signers 0xC [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(11),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(6), 8)],
+}
+task 15 lines 506-514:  run --signers 0xC [script]
+task 16 lines 518-525:  run --signers 0xA [script]
+task 17 lines 529-535:  run --signers 0xB [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(11),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(6), 8)],
+}
+task 18 lines 539-546:  run --signers 0xB [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(15),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(7), 27)],
+}
+task 19 lines 550-557:  run --signers 0xA [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(14),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(7), 12)],
+}
+task 20 lines 561-567:  run --signers 0xA [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(12),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(6), 15)],
+}
+task 21 lines 571-577:  run --signers 0xA [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(9),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(5), 32)],
+}
+task 22 lines 581-597:  run --signers 0xA [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(14),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(7), 12)],
+}
+task 23 lines 601-616:  run --signers 0xA [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(12),
+    location: 0x1::SortedLinkedList,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(6), 15)],
+}
+task 24 lines 620-635:  run --signers 0xA [script]
+task 25 lines 639-645:  run --signers 0xB [script]

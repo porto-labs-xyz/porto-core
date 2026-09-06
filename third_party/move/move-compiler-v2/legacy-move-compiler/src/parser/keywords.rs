@@ -1,0 +1,81 @@
+// Parts of the file are Copyright (c) The Diem Core Contributors
+// Parts of the file are Copyright (c) The Move Contributors
+// Parts of the file are Copyright (c) Aptos Foundation
+// All Aptos Foundation code and content is licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+pub const KEYWORDS: &[&str] = &[
+    "abort",
+    "acquires",
+    "as",
+    "break",
+    "const",
+    "continue",
+    "copy",
+    "else",
+    "false",
+    "friend",
+    "fun",
+    "has",
+    "if",
+    "invariant",
+    "let",
+    "loop",
+    "module",
+    "move",
+    "native",
+    "public",
+    "return",
+    "script",
+    "spec",
+    "struct",
+    "true",
+    "use",
+    "while",
+];
+
+pub const CONTEXTUAL_KEYWORDS: &[&str] = &[
+    "aborts_if",
+    "aborts_with",
+    "address",
+    "apply",
+    "assume",
+    "axiom",
+    "choose",
+    "decreases",
+    "emits",
+    "ensures",
+    "except",
+    "forall",
+    "global",
+    "include",
+    "internal",
+    "local",
+    "min",
+    "modifies",
+    "mut",
+    "package",
+    "phantom",
+    "post",
+    "pragma",
+    "requires",
+    "Self",
+    "schema",
+    "succeeds_if",
+    "to",
+    "update",
+    "where",
+    "with",
+];
+
+pub const PRIMITIVE_TYPES: &[&str] = &["u8", "u16", "u32", "u64", "u128", "u256", "bool", "vector"];
+
+pub const BUILTINS: &[&str] = &[
+    "assert",
+    "borrow_global",
+    "borrow_global_mut",
+    "exists",
+    "freeze",
+    "move_from",
+    "move_to",
+    "old",
+];

@@ -1,0 +1,1529 @@
+processed 191 tasks
+task 0 lines 1-8:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 1 lines 12-19:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 2 lines 23-30:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 3 lines 34-41:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 4 lines 45-52:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 5 lines 56-63:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 6 lines 67-74:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 7 lines 78-85:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 8 lines 89-96:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 9 lines 100-107:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 10 lines 111-118:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 11 lines 122-129:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 12 lines 133-144:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 13 lines 148-159:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 14 lines 163-175:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 15 lines 179-186:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 16 lines 190-197:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 17 lines 201-208:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 18 lines 212-219:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 19 lines 223-230:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 20 lines 234-241:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 21 lines 245-252:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 22 lines 256-263:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 23 lines 267-274:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 24 lines 278-285:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 25 lines 289-296:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 26 lines 300-307:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 27 lines 311-322:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 28 lines 326-337:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 29 lines 341-353:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 30 lines 357-364:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 31 lines 368-375:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 32 lines 379-386:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 33 lines 390-397:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 34 lines 401-408:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 35 lines 412-419:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 36 lines 423-430:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 37 lines 434-441:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 38 lines 445-452:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 39 lines 456-463:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 40 lines 467-474:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 41 lines 478-485:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 42 lines 489-500:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 43 lines 504-515:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 44 lines 519-531:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 45 lines 535-542:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 46 lines 546-553:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 47 lines 557-564:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 48 lines 568-575:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 49 lines 579-586:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 50 lines 590-597:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 51 lines 601-608:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 52 lines 612-619:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 53 lines 623-630:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 54 lines 634-641:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 55 lines 645-652:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 56 lines 656-663:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 57 lines 667-678:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 58 lines 682-693:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 59 lines 697-709:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 60 lines 713-720:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 61 lines 724-731:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 62 lines 735-742:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 63 lines 746-753:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 64 lines 757-764:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 65 lines 768-775:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 66 lines 779-786:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 67 lines 790-797:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 68 lines 801-808:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 69 lines 812-819:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 70 lines 823-830:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 71 lines 834-841:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 72 lines 845-856:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 73 lines 860-871:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 74 lines 875-887:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 75 lines 891-898:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 76 lines 902-909:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 77 lines 913-920:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 78 lines 924-931:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 79 lines 935-942:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 80 lines 946-953:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 81 lines 957-964:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 82 lines 968-975:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 83 lines 979-986:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 84 lines 990-997:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 85 lines 1001-1008:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 86 lines 1012-1019:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 87 lines 1023-1034:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 88 lines 1038-1049:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 89 lines 1053-1065:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 90 lines 1069-1076:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 91 lines 1080-1087:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 92 lines 1091-1098:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 93 lines 1102-1109:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 94 lines 1113-1120:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 95 lines 1124-1131:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 96 lines 1135-1142:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 97 lines 1146-1153:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 98 lines 1157-1164:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 99 lines 1168-1175:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 100 lines 1179-1186:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 101 lines 1190-1197:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 102 lines 1201-1212:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 103 lines 1216-1227:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 104 lines 1231-1243:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 105 lines 1247-1254:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 106 lines 1258-1265:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 107 lines 1269-1276:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 108 lines 1280-1287:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 109 lines 1291-1298:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 110 lines 1302-1309:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 111 lines 1313-1320:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 112 lines 1324-1331:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 113 lines 1335-1342:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 114 lines 1346-1353:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 115 lines 1357-1368:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 116 lines 1372-1383:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 117 lines 1387-1394:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 118 lines 1398-1405:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 119 lines 1409-1416:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 120 lines 1420-1427:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 121 lines 1431-1438:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 122 lines 1442-1449:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 123 lines 1453-1460:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 124 lines 1464-1471:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 125 lines 1475-1482:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 126 lines 1486-1493:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 127 lines 1497-1508:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 128 lines 1512-1523:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 129 lines 1527-1534:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 130 lines 1538-1545:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 131 lines 1549-1556:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 132 lines 1560-1567:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 133 lines 1571-1578:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 134 lines 1582-1589:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 135 lines 1593-1600:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 136 lines 1604-1611:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 137 lines 1615-1622:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 138 lines 1626-1633:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 139 lines 1637-1644:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 140 lines 1648-1655:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 141 lines 1659-1666:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 142 lines 1670-1677:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 143 lines 1681-1688:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 144 lines 1692-1699:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 145 lines 1703-1710:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 146 lines 1714-1721:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 147 lines 1725-1732:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 148 lines 1736-1743:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 149 lines 1747-1754:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 150 lines 1758-1765:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 151 lines 1769-1776:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 152 lines 1780-1787:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 153 lines 1791-1798:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 154 lines 1802-1809:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 155 lines 1813-1820:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 156 lines 1824-1831:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 157 lines 1835-1842:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 158 lines 1846-1853:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 159 lines 1857-1864:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 160 lines 1868-1875:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 161 lines 1879-1886:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 162 lines 1890-1897:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 163 lines 1901-1908:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 164 lines 1912-1919:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 165 lines 1923-1930:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 166 lines 1934-1941:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 167 lines 1945-1952:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 168 lines 1956-1963:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 169 lines 1967-1974:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 170 lines 1978-1985:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 171 lines 1989-1996:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 172 lines 2000-2007:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 173 lines 2011-2018:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 174 lines 2022-2029:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 175 lines 2033-2040:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 176 lines 2044-2051:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 177 lines 2055-2066:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 178 lines 2070-2081:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 179 lines 2085-2097:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 180 lines 2101-2108:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 181 lines 2112-2119:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 182 lines 2123-2130:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 183 lines 2134-2141:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 184 lines 2145-2152:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 185 lines 2156-2163:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 186 lines 2167-2174:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 187 lines 2178-2185:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 188 lines 2189-2200:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 189 lines 2204-2215:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 190 lines 2219-2231:  publish [module 0x42::M]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000042::M'. Got VMError: {
+    major_status: INTEGER_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x42::M,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}

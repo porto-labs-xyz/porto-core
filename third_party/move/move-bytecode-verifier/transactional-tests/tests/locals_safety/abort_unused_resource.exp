@@ -1,0 +1,10 @@
+processed 2 tasks
+task 0 lines 1-9:  publish [module 0x1::M]
+task 1 lines 13-21:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: LOOKUP_FAILED,
+    sub_status: None,
+    location: script,
+    indices: [(FunctionHandle, 0)],
+    offsets: [],
+}

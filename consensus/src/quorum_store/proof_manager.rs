@@ -1,0 +1,375 @@
+// Copyright (c) Aptos Foundation
+// Licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use super::batch_store::BatchStore;
+use crate::{
+    monitor,
+    quorum_store::{
+        batch_generator::BackPressure,
+        batch_proof_queue::BatchProofQueue,
+        counters,
+        tracing::{observe_batch, BatchStage},
+    },
+};
+use aptos_consensus_types::{
+    common::{Payload, PayloadFilter, TxnSummaryWithExpiration},
+    payload::{OptQuorumStorePayload, PayloadExecutionLimit},
+    proof_of_store::{BatchInfoExt, ProofOfStore, ProofOfStoreMsg, TBatchInfo},
+    request_response::{GetPayloadCommand, GetPayloadResponse},
+    utils::PayloadTxnsSize,
+};
+use aptos_logger::prelude::*;
+use aptos_types::PeerId;
+use futures::StreamExt;
+use futures_channel::mpsc::Receiver;
+use std::{cmp::min, collections::HashSet, sync::Arc, time::Duration};
+
+#[derive(Debug)]
+pub enum ProofManagerCommand {
+    ReceiveProofs(ProofOfStoreMsg<BatchInfoExt>),
+    ReceiveBatches(Vec<(BatchInfoExt, Vec<TxnSummaryWithExpiration>)>),
+    CommitNotification(u64, Vec<BatchInfoExt>),
+    Shutdown(tokio::sync::oneshot::Sender<()>),
+}
+
+pub struct ProofManager {
+    batch_proof_queue: BatchProofQueue,
+    back_pressure_total_txn_limit: u64,
+    remaining_total_txn_num: u64,
+    back_pressure_total_proof_limit: u64,
+    remaining_total_proof_num: u64,
+    allow_batches_without_pos_in_proposal: bool,
+    batch_expiry_gap_when_init_usecs: u64,
+}
+
+impl ProofManager {
+    pub fn new(
+        my_peer_id: PeerId,
+        back_pressure_total_txn_limit: u64,
+        back_pressure_total_proof_limit: u64,
+        batch_store: Arc<BatchStore>,
+        allow_batches_without_pos_in_proposal: bool,
+        batch_expiry_gap_when_init_usecs: u64,
+    ) -> Self {
+        Self {
+            batch_proof_queue: BatchProofQueue::new(
+                my_peer_id,
+                batch_store,
+                batch_expiry_gap_when_init_usecs,
+            ),
+            back_pressure_total_txn_limit,
+            remaining_total_txn_num: 0,
+            back_pressure_total_proof_limit,
+            remaining_total_proof_num: 0,
+            allow_batches_without_pos_in_proposal,
+            batch_expiry_gap_when_init_usecs,
+        }
+    }
+
+    pub(crate) fn receive_proofs(&mut self, proofs: Vec<ProofOfStore<BatchInfoExt>>) {
+        for proof in proofs.into_iter() {
+            // Batch tracing (Prometheus histogram) — works on every node,
+            // not just the batch author. Measures batch_creation → proof_received.
+            let approx_created_ts_usecs = proof
+                .info()
+                .expiration()
+                .saturating_sub(self.batch_expiry_gap_when_init_usecs);
+            let age = aptos_infallible::duration_since_epoch()
+                .checked_sub(std::time::Duration::from_micros(approx_created_ts_usecs));
+            observe_batch(
+                approx_created_ts_usecs,
+                proof.info().author(),
+                BatchStage::PROOF_RECEIVED,
+                proof.info(),
+            );
+            // Log on every node when a proof is slow to arrive (> 500ms from
+            // batch creation). Catches outliers that Prometheus histograms miss.
+            if let Some(age) = age {
+                if age.as_millis() > 500 {
+                    warn!(
+                        "SlowProofReceipt author={} digest={} num_txns={} age_ms={}",
+                        proof.info().author(),
+                        proof.info().digest(),
+                        proof.info().num_txns(),
+                        age.as_millis(),
+                    );
+                }
+            }
+            self.batch_proof_queue.insert_proof(proof);
+        }
+        self.update_remaining_txns_and_proofs();
+    }
+
+    fn update_remaining_txns_and_proofs(&mut self) {
+        sample!(
+            SampleRate::Duration(Duration::from_millis(200)),
+            (self.remaining_total_txn_num, self.remaining_total_proof_num) =
+                self.batch_proof_queue.remaining_txns_and_proofs();
+        );
+    }
+
+    pub(crate) fn receive_batches(
+        &mut self,
+        batch_summaries: Vec<(BatchInfoExt, Vec<TxnSummaryWithExpiration>)>,
+    ) {
+        self.batch_proof_queue.insert_batches(batch_summaries);
+        self.update_remaining_txns_and_proofs();
+    }
+
+    pub(crate) fn handle_commit_notification(
+        &mut self,
+        block_timestamp: u64,
+        batches: Vec<BatchInfoExt>,
+    ) {
+        trace!(
+            "QS: got clean request from execution at block timestamp {}",
+            block_timestamp
+        );
+        self.batch_proof_queue.mark_committed(batches);
+        self.batch_proof_queue
+            .handle_updated_block_timestamp(block_timestamp);
+        self.update_remaining_txns_and_proofs();
+    }
+
+    pub(crate) fn handle_proposal_request(&mut self, msg: GetPayloadCommand) {
+        let GetPayloadCommand::GetPayloadRequest(request) = msg;
+
+        let excluded_batches: HashSet<_> = match request.filter {
+            PayloadFilter::Empty => HashSet::new(),
+            PayloadFilter::DirectMempool(_) => {
+                unreachable!()
+            },
+            PayloadFilter::InQuorumStore(batches) => batches,
+        };
+
+        let per_kind_txn_limits = request
+            .maybe_optqs_payload_pull_params
+            .as_ref()
+            .map(|p| p.per_kind_txn_limits.clone())
+            .unwrap_or_default();
+
+        // Create PullSession once — accumulates state across all 3 pulls
+        let mut session = self
+            .batch_proof_queue
+            .create_pull_session(&excluded_batches);
+
+        let (
+            proof_block,
+            txns_with_proof_size,
+            cur_unique_txns,
+            proof_queue_fully_utilized,
+            _proof_txns_per_kind,
+        ) = self.batch_proof_queue.pull_proofs(
+            &mut session,
+            request.max_txns,
+            request.max_txns_after_filtering,
+            request.soft_max_txns_after_filtering,
+            request.return_non_full,
+            request.block_timestamp,
+            &per_kind_txn_limits,
+        );
+
+        counters::NUM_BATCHES_WITHOUT_PROOF_OF_STORE
+            .observe(self.batch_proof_queue.num_batches_without_proof() as f64);
+        counters::PROOF_QUEUE_FULLY_UTILIZED
+            .observe(if proof_queue_fully_utilized { 1.0 } else { 0.0 });
+
+        let (opt_batches, opt_batch_txns_size, _opt_batch_txns_per_kind) =
+            // TODO(ibalajiarun): Support unique txn calculation
+            if let Some(ref params) = request.maybe_optqs_payload_pull_params {
+                let max_opt_batch_txns_size = request.max_txns - txns_with_proof_size;
+                let max_opt_batch_txns_after_filtering = request.max_txns_after_filtering - cur_unique_txns;
+                let remaining_per_kind = session.remaining_per_kind(&per_kind_txn_limits);
+                let (opt_batches, opt_payload_size, _, _opt_txns_per_kind) =
+                    self.batch_proof_queue.pull_batches(
+                        &mut session,
+                        &params.exclude_authors,
+                        max_opt_batch_txns_size,
+                        max_opt_batch_txns_after_filtering,
+                        request.soft_max_txns_after_filtering,
+                        request.return_non_full,
+                        request.block_timestamp,
+                        Some(params.minimum_batch_age_usecs),
+                        &remaining_per_kind,
+                    );
+                (opt_batches, opt_payload_size, _opt_txns_per_kind)
+            } else {
+                (Vec::new(), PayloadTxnsSize::zero(), Default::default())
+            };
+
+        let cur_txns = txns_with_proof_size + opt_batch_txns_size;
+        let (inline_block, inline_block_size) =
+            if self.allow_batches_without_pos_in_proposal && proof_queue_fully_utilized {
+                let mut max_inline_txns_to_pull = request
+                    .max_txns
+                    .saturating_sub(cur_txns)
+                    .minimum(request.max_inline_txns);
+                max_inline_txns_to_pull.set_count(min(
+                    max_inline_txns_to_pull.count(),
+                    request
+                        .max_txns_after_filtering
+                        .saturating_sub(cur_unique_txns),
+                ));
+                let remaining_per_kind = session.remaining_per_kind(&per_kind_txn_limits);
+                let (inline_batches, inline_payload_size, _) =
+                    self.batch_proof_queue.pull_batches_with_transactions(
+                        &mut session,
+                        max_inline_txns_to_pull,
+                        request.max_txns_after_filtering,
+                        request.soft_max_txns_after_filtering,
+                        request.return_non_full,
+                        request.block_timestamp,
+                        &remaining_per_kind,
+                    );
+                (inline_batches, inline_payload_size)
+            } else {
+                (Vec::new(), PayloadTxnsSize::zero())
+            };
+        counters::NUM_INLINE_BATCHES.observe(inline_block.len() as f64);
+        counters::NUM_INLINE_TXNS.observe(inline_block_size.count() as f64);
+
+        let enable_optqs_v2 = request
+            .maybe_optqs_payload_pull_params
+            .as_ref()
+            .is_some_and(|p| p.enable_opt_qs_v2_payload);
+
+        let response = if enable_optqs_v2 {
+            // V2: keep BatchInfoExt as-is
+            Payload::OptQuorumStore(OptQuorumStorePayload::new_v2(
+                inline_block.into(),
+                opt_batches.into(),
+                proof_block.into(),
+                PayloadExecutionLimit::None,
+            ))
+        } else {
+            trace!(
+                "QS: GetBlockRequest excluded len {}, block len {}, inline len {}",
+                excluded_batches.len(),
+                proof_block.len(),
+                inline_block.len()
+            );
+            // V1: downgrade to BatchInfo, filtering out V2 batches
+            let inline_block_v1: Vec<_> = inline_block
+                .into_iter()
+                .filter(|(info, _)| !info.is_v2())
+                .map(|(info, txns)| (info.info().clone(), txns))
+                .collect();
+            let opt_batches_v1: Vec<_> = opt_batches
+                .into_iter()
+                .filter(|info| !info.is_v2())
+                .map(|info| info.info().clone())
+                .collect();
+            let proof_block_v1: Vec<_> = proof_block
+                .into_iter()
+                .filter_map(|proof| {
+                    if !proof.is_v2() {
+                        let (info, sig) = proof.unpack();
+                        Some(ProofOfStore::new(info.info().clone(), sig))
+                    } else {
+                        None
+                    }
+                })
+                .collect();
+            Payload::OptQuorumStore(OptQuorumStorePayload::new(
+                inline_block_v1.into(),
+                opt_batches_v1.into(),
+                proof_block_v1.into(),
+                PayloadExecutionLimit::None,
+            ))
+        };
+
+        let res = GetPayloadResponse::GetPayloadResponse(response);
+        match request.callback.send(Ok(res)) {
+            Ok(_) => (),
+            Err(err) => debug!("BlockResponse receiver not available! error {:?}", err),
+        }
+    }
+
+    /// return true when quorum store is back pressured
+    pub(crate) fn qs_back_pressure(&self) -> BackPressure {
+        if self.remaining_total_txn_num > self.back_pressure_total_txn_limit
+            || self.remaining_total_proof_num > self.back_pressure_total_proof_limit
+        {
+            sample!(
+                SampleRate::Duration(Duration::from_millis(200)),
+                info!(
+                    "Quorum store is back pressured with {} txns, limit: {}, proofs: {}, limit: {}",
+                    self.remaining_total_txn_num,
+                    self.back_pressure_total_txn_limit,
+                    self.remaining_total_proof_num,
+                    self.back_pressure_total_proof_limit
+                );
+            );
+        }
+
+        BackPressure {
+            txn_count: self.remaining_total_txn_num > self.back_pressure_total_txn_limit,
+            proof_count: self.remaining_total_proof_num > self.back_pressure_total_proof_limit,
+        }
+    }
+
+    pub async fn start(
+        mut self,
+        back_pressure_tx: tokio::sync::mpsc::Sender<BackPressure>,
+        mut proposal_rx: Receiver<GetPayloadCommand>,
+        mut proof_rx: tokio::sync::mpsc::Receiver<ProofManagerCommand>,
+    ) {
+        let mut back_pressure = BackPressure {
+            txn_count: false,
+            proof_count: false,
+        };
+
+        loop {
+            let _timer = counters::PROOF_MANAGER_MAIN_LOOP.start_timer();
+
+            tokio::select! {
+                    Some(msg) = proposal_rx.next() => monitor!("proof_manager_handle_proposal", {
+                        self.handle_proposal_request(msg);
+
+                        let updated_back_pressure = self.qs_back_pressure();
+                        if updated_back_pressure != back_pressure {
+                            back_pressure = updated_back_pressure;
+                            if back_pressure_tx.send(back_pressure).await.is_err() {
+                                debug!("Failed to send back_pressure for proposal");
+                            }
+                        }
+                    }),
+                    Some(msg) = proof_rx.recv() => {
+                        monitor!("proof_manager_handle_command", {
+                        match msg {
+                            ProofManagerCommand::Shutdown(ack_tx) => {
+                                counters::QUORUM_STORE_MSG_COUNT.with_label_values(&["ProofManager::shutdown"]).inc();
+                                ack_tx
+                                    .send(())
+                                    .expect("Failed to send shutdown ack to QuorumStore");
+                                break;
+                            },
+                            ProofManagerCommand::ReceiveProofs(proofs) => {
+                                counters::QUORUM_STORE_MSG_COUNT.with_label_values(&["ProofManager::receive_proofs"]).inc();
+                                self.receive_proofs(proofs.take());
+                            },
+                            ProofManagerCommand::ReceiveBatches(batches) => {
+                                counters::QUORUM_STORE_MSG_COUNT.with_label_values(&["ProofManager::receive_batches"]).inc();
+                                self.receive_batches(batches);
+                            }
+                            ProofManagerCommand::CommitNotification(block_timestamp, batches) => {
+                                counters::QUORUM_STORE_MSG_COUNT.with_label_values(&["ProofManager::commit_notification"]).inc();
+                                self.handle_commit_notification(
+                                    block_timestamp,
+                                    batches,
+                                );
+                            },
+                        }
+                        let updated_back_pressure = self.qs_back_pressure();
+                        if updated_back_pressure != back_pressure {
+                            back_pressure = updated_back_pressure;
+                            if back_pressure_tx.send(back_pressure).await.is_err() {
+                                debug!("Failed to send back_pressure for commit notification");
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    }
+}

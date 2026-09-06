@@ -1,0 +1,37 @@
+[package]
+name = "move-stdlib"
+version = "0.1.1"
+edition = { workspace = true }
+authors = ["Diem Association <opensource@diem.com>"]
+description = "Diem stdlib"
+repository = "https://github.com/diem/diem"
+homepage = "https://diem.com"
+license = "Apache-2.0"
+publish = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+anyhow = { workspace = true }
+codespan-reporting = { workspace = true }
+hex = { workspace = true }
+move-binary-format = { workspace = true }
+move-command-line-common = { workspace = true }
+move-compiler-v2 = { workspace = true }
+legacy-move-compiler ={ workspace = true }
+move-core-types = { workspace = true }
+move-docgen = { workspace = true }
+move-vm-runtime = { workspace = true }
+move-vm-types = { workspace = true }
+sha2 = { workspace = true }
+sha3 = { workspace = true }
+smallvec = { workspace = true }
+walkdir = { workspace = true }
+
+[dev-dependencies]
+move-package = { workspace = true }
+move-prover = { workspace = true }
+move-unit-test = { workspace = true }
+tempfile = { workspace = true }
+
+[features]
+testing = ["move-vm-types/testing"]

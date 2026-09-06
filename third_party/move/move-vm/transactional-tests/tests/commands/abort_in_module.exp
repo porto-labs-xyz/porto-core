@@ -1,0 +1,10 @@
+processed 2 tasks
+task 0 lines 1-5:  publish [module 0x1::M]
+task 1 lines 9-14:  run [script]
+Error: Script execution failed with VMError: {
+    major_status: ABORTED,
+    sub_status: Some(22),
+    location: 0x1::M,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 1)],
+}

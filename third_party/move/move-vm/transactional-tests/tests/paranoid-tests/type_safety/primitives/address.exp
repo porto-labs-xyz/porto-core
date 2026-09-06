@@ -1,0 +1,36 @@
+processed 7 tasks
+task 0 lines 1-23:  publish [module 0x22::A]
+task 1 lines 27-36:  run --signers 0x1 [script]
+task 2 lines 40-49:  run --signers 0x1 [script]
+Error: Script execution failed with VMError: {
+    major_status: UNKNOWN_INVARIANT_VIOLATION_ERROR,
+    sub_status: Some(1),
+    location: 0x22::A,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(2), 3)],
+}
+task 3 lines 53-70:  run --signers 0x1 [script]
+Error: Script execution failed with VMError: {
+    major_status: INTERNAL_TYPE_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 4 lines 74-91:  run --signers 0x1 [script]
+Error: Script execution failed with VMError: {
+    major_status: INTERNAL_TYPE_ERROR,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 5 lines 95-107:  run --signers 0x1 [script]
+task 6 lines 111-123:  run --signers 0x1 [script]
+Error: Script execution failed with VMError: {
+    major_status: UNKNOWN_INVARIANT_VIOLATION_ERROR,
+    sub_status: Some(1),
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 6)],
+}

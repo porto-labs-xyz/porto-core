@@ -1,0 +1,61 @@
+[package]
+name = "move-vm-runtime"
+version = "0.1.0"
+authors = ["Diem Association <opensource@diem.com>"]
+description = "Core Move execution logic"
+repository = "https://github.com/diem/diem"
+homepage = "https://diem.com"
+license = "Apache-2.0"
+publish = false
+edition = { workspace = true }
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ahash = { workspace = true }
+ambassador = { workspace = true }
+arc-swap = { workspace = true }
+bcs = { workspace = true }
+better_any = { workspace = true }
+bitvec = { workspace = true }
+bytes = { workspace = true }
+cfg-if = { workspace = true }
+claims = { workspace = true }
+fail = { workspace = true }
+fxhash = { workspace = true }
+hashbrown = { workspace = true }
+itertools = { workspace = true }
+lazy_static = { workspace = true }
+lru = { workspace = true }
+move-binary-format = { workspace = true }
+move-bytecode-verifier = { workspace = true }
+move-core-types = { workspace = true }
+move-vm-metrics = { workspace = true }
+move-vm-profiler = { workspace = true }
+move-vm-types = { workspace = true }
+once_cell = { workspace = true }
+parking_lot = { workspace = true }
+serde = { workspace = true }
+triomphe = { workspace = true }
+typed-arena = { workspace = true }
+
+[dev-dependencies]
+move-binary-format = { workspace = true, features = ["fuzzing"] }
+move-vm-types = { workspace = true, features = ["testing"] }
+smallbitvec = { workspace = true }
+test-case = { workspace = true }
+
+[features]
+default = [
+    "inline-callstack",
+]
+profiling = ["move-vm-profiler/probe-profiler"]
+testing = []
+fuzzing = ["move-vm-types/fuzzing"]
+failpoints = ["fail/failpoints"]
+# Enable this features for tests that check bytecode verification.
+disable_verifier_cache = []
+force-inline = []
+inline-callstack = []
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(fuzzing)'] }

@@ -1,0 +1,200 @@
+// Copyright (c) Aptos Foundation
+// Licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use crate::{
+    dropper::DROPPER,
+    flatten_perfect_tree::{FlattenPerfectTree, FptRef},
+    map::{DefaultHashBuilder, LayeredMap},
+    metrics::LAYER,
+};
+use aptos_crypto::HashValue;
+use aptos_drop_helper::ArcAsyncDrop;
+use aptos_infallible::Mutex;
+use aptos_metrics_core::IntGaugeVecHelper;
+use std::{
+    marker::PhantomData,
+    sync::{Arc, Weak},
+};
+
+#[derive(Debug)]
+struct LayerInner<K: ArcAsyncDrop, V: ArcAsyncDrop> {
+    peak: FlattenPerfectTree<K, V>,
+    parent: Weak<Self>,
+    children: Mutex<Vec<Arc<Self>>>,
+    use_case: &'static str,
+    family: HashValue,
+    layer: u64,
+    // Base layer when self is created -- `self` won't even weak-link to a node created in
+    // the base or an older layer.
+    base_layer: u64,
+}
+
+impl<K: ArcAsyncDrop, V: ArcAsyncDrop> Drop for LayerInner<K, V> {
+    fn drop(&mut self) {
+        // Drop the tree nodes in a different thread, because that's the slowest part.
+        DROPPER.schedule_drop(self.peak.take_for_drop());
+
+        let mut stack = self.drain_children_for_drop();
+        while let Some(descendant) = stack.pop() {
+            if Arc::strong_count(&descendant) == 1 {
+                // The only ref is the one we are now holding, so the
+                // descendant will be dropped after we free the `Arc`, which results in a chain
+                // of such structures being dropped recursively and that might trigger a stack
+                // overflow. To prevent that we follow the chain further to disconnect things
+                // beforehand.
+                stack.extend(descendant.drain_children_for_drop());
+            }
+        }
+        self.log_layer("dropped");
+    }
+}
+
+impl<K: ArcAsyncDrop, V: ArcAsyncDrop> LayerInner<K, V> {
+    fn new_family(use_case: &'static str) -> Arc<Self> {
+        let family = HashValue::random();
+        Arc::new(Self {
+            peak: FlattenPerfectTree::new_with_empty_nodes(1),
+            parent: Weak::new(),
+            children: Mutex::new(Vec::new()),
+            use_case,
+            family,
+            layer: 0,
+            base_layer: 0,
+        })
+    }
+
+    fn spawn(self: &Arc<Self>, child_peak: FlattenPerfectTree<K, V>, base_layer: u64) -> Arc<Self> {
+        let child = Arc::new(Self {
+            peak: child_peak,
+            parent: Arc::downgrade(self),
+            children: Mutex::new(Vec::new()),
+            use_case: self.use_case,
+            family: self.family,
+            layer: self.layer + 1,
+            base_layer,
+        });
+        self.children.lock().push(child.clone());
+        child.log_layer("spawn");
+
+        child
+    }
+
+    fn drain_children_for_drop(&self) -> Vec<Arc<Self>> {
+        self.children.lock().drain(..).collect()
+    }
+
+    fn log_layer(&self, event: &'static str) {
+        LAYER.set_with(&[self.use_case, event], self.layer as i64);
+    }
+}
+
+#[derive(Debug)]
+pub struct MapLayer<K: ArcAsyncDrop, V: ArcAsyncDrop, S = DefaultHashBuilder> {
+    inner: Arc<LayerInner<K, V>>,
+    /// Carried only for type safety: a LayeredMap can only be with layers of the same hasher type.
+    _hash_builder: PhantomData<S>,
+}
+
+/// Manual implementation because `LayerInner` is deliberately not `Clone`.
+impl<K: ArcAsyncDrop, V: ArcAsyncDrop> Clone for MapLayer<K, V> {
+    fn clone(&self) -> Self {
+        Self::new(self.inner.clone())
+    }
+}
+
+impl<K: ArcAsyncDrop, V: ArcAsyncDrop> MapLayer<K, V> {
+    pub fn new_family(use_case: &'static str) -> Self {
+        Self::new(LayerInner::new_family(use_case))
+    }
+
+    fn new(inner: Arc<LayerInner<K, V>>) -> Self {
+        Self {
+            inner,
+            _hash_builder: PhantomData,
+        }
+    }
+
+    pub(crate) fn parent(&self) -> Option<Self> {
+        self.inner.parent.upgrade().map(Self::new)
+    }
+
+    pub fn into_layers_view_after(self, base_layer: Self) -> LayeredMap<K, V> {
+        assert!(
+            self.can_view_after(&base_layer),
+            "incompatible layers: base(family={}, layer={}) top(family={}, layer={}, base_layer={})",
+            base_layer.inner.family,
+            base_layer.inner.layer,
+            self.inner.family,
+            self.inner.layer,
+            self.inner.base_layer,
+        );
+
+        self.log_layer("view");
+        base_layer.log_layer("as_view_base");
+
+        LayeredMap::new(base_layer, self)
+    }
+
+    pub fn view_layers_after(&self, base_layer: &Self) -> LayeredMap<K, V> {
+        self.clone().into_layers_view_after(base_layer.clone())
+    }
+
+    pub fn log_layer(&self, name: &'static str) {
+        self.inner.log_layer(name)
+    }
+
+    fn is_family(&self, other: &Self) -> bool {
+        self.inner.family == other.inner.family
+    }
+
+    pub fn is_the_same(&self, other: &Self) -> bool {
+        Arc::ptr_eq(&self.inner, &other.inner)
+    }
+
+    /// Returns true if `base` can be used as the base layer for viewing layers up to `self`.
+    pub fn can_view_after(&self, base: &Self) -> bool {
+        self.is_family(base)
+            && base.inner.layer >= self.inner.base_layer
+            && base.inner.layer <= self.inner.layer
+    }
+
+    pub fn is_descendant_of(&self, other: &Self) -> bool {
+        if !self.is_family(other) {
+            return false;
+        }
+
+        // Walk up the parent chain from `self` to verify `other` is an actual ancestor,
+        // not merely a same-family node on a different fork.
+        let mut cur = Arc::clone(&self.inner);
+        loop {
+            if Arc::ptr_eq(&cur, &other.inner) {
+                return true;
+            }
+            if cur.layer <= other.inner.layer {
+                // Reached or passed the target layer without finding `other`.
+                return false;
+            }
+            match cur.parent.upgrade() {
+                Some(parent) => cur = parent,
+                // Parent has been dropped — `other` is not an ancestor.
+                None => return false,
+            }
+        }
+    }
+
+    pub(crate) fn layer(&self) -> u64 {
+        self.inner.layer
+    }
+
+    pub(crate) fn use_case(&self) -> &'static str {
+        self.inner.use_case
+    }
+
+    pub(crate) fn spawn(&self, child_peak: FlattenPerfectTree<K, V>, base_layer: u64) -> Self {
+        Self::new(self.inner.spawn(child_peak, base_layer))
+    }
+
+    pub(crate) fn peak(&self) -> FptRef<'_, K, V> {
+        self.inner.peak.get_ref()
+    }
+}

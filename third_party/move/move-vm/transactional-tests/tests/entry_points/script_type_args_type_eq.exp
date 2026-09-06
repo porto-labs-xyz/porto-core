@@ -1,0 +1,5 @@
+processed 4 tasks
+task 0 lines 1-32:  publish [module 0x42::M]
+task 1 lines 36-53:  run --type-args u64 --signers 0x1 [script]
+task 2 lines 57-74:  run --type-args 0x42::M::Item --signers 0x2 [script]
+task 3 lines 78-95:  run --type-args 0x42::M::Cup<0x42::M::Cup<vector<u64>>> --signers 0x3 [script]

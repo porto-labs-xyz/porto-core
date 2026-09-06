@@ -1,0 +1,19 @@
+
+Diagnostics:
+error: function `0x42::o::inaccessible` is private to module `0x42::o`
+   ┌─ tests/checking/unused/private_call_3.move:46:16
+   │
+46 │     inline fun inaccessible(): u64 {
+   │                ^^^^^^^^^^^^ called from function `0x42::n::test`
+   ·
+93 │     assert!(o::inaccessible() == 42, 1);
+   │             ----------------- called here
+
+error: function `0x42::o_nonfriend::inaccessible` is private to module `0x42::o_nonfriend`
+   ┌─ tests/checking/unused/private_call_3.move:72:16
+   │
+72 │     inline fun inaccessible(): u64 {
+   │                ^^^^^^^^^^^^ called from function `0x42::n::test2`
+   ·
+99 │     assert!(o_nonfriend::inaccessible() == 42, 1);
+   │             --------------------------- called here

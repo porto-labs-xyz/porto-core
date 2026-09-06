@@ -1,0 +1,5 @@
+[package]
+name = "test_large_pack"
+version = "0.0.0"
+upgrade_policy = "compatible"
+

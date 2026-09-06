@@ -1,0 +1,58 @@
+// Parts of the file are Copyright (c) The Diem Core Contributors
+// Parts of the file are Copyright (c) The Move Contributors
+// Parts of the file are Copyright (c) Aptos Foundation
+// All Aptos Foundation code and content is licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use move_core_types::{account_address::AccountAddress, effects::ChangeSet};
+use move_table_extension::{table_natives, GasParameters};
+use move_unit_test::{
+    package_test::{run_move_unit_tests, UnitTestResult},
+    UnitTestingConfig,
+};
+use std::path::PathBuf;
+use tempfile::tempdir;
+
+fn run_tests_for_pkg(path_to_pkg: impl Into<String>) {
+    let pkg_path = path_in_crate(path_to_pkg);
+    let mut natives = move_stdlib::natives::all_natives(
+        AccountAddress::from_hex_literal("0x1").unwrap(),
+        move_stdlib::natives::GasParameters::zeros(),
+    );
+    natives.append(&mut table_natives(
+        AccountAddress::from_hex_literal("0x2").unwrap(),
+        GasParameters::zeros(),
+    ));
+    let res = run_move_unit_tests(
+        &pkg_path,
+        move_package::BuildConfig {
+            test_mode: true,
+            install_dir: Some(tempdir().unwrap().path().to_path_buf()),
+            ..Default::default()
+        },
+        UnitTestingConfig::default(),
+        natives,
+        ChangeSet::new(),
+        /* gas_limit */ Some(100_000),
+        /* cost_table */ None,
+        /* compute_coverage */ false,
+        &mut std::io::stdout(),
+        false,
+    );
+    if res.is_err() || res.is_ok_and(|r| r == UnitTestResult::Failure) {
+        panic!("move unit tests failed")
+    }
+}
+
+#[test]
+fn move_unit_tests() {
+    run_tests_for_pkg(".");
+}
+
+pub fn path_in_crate<S>(relative: S) -> PathBuf
+where
+    S: Into<String>,
+{
+    let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    path.push(relative.into());
+    path
+}

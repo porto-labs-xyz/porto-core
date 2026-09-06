@@ -1,0 +1,6 @@
+processed 5 tasks
+task 0 lines 3-164:  publish [module 0xc0ffee::m {]
+task 1 lines 167-167:  run 0xc0ffee::m::test_1
+task 2 lines 169-169:  run 0xc0ffee::m::test_2
+task 3 lines 171-171:  run 0xc0ffee::m::test_3
+task 4 lines 173-173:  run 0xc0ffee::m::test_4

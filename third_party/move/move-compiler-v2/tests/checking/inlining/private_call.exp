@@ -1,0 +1,21 @@
+
+Diagnostics:
+warning: public inline function `foo` calls `m::bar` which may not be accessible when expanded
+  ┌─ tests/checking/inlining/private_call.move:3:23
+  │
+3 │     public inline fun foo(): u64 {
+  │                       ^^^ contains calls that may be inaccessible when expanded
+4 │         bar()
+  │         ----- private function may not be accessible in all contexts where `foo` can be called
+
+error: function `0x42::m::bar` is private to module `0x42::m`
+   ┌─ tests/checking/inlining/private_call.move:7:9
+   │
+ 4 │         bar()
+   │         ----- called here
+   ·
+ 7 │     fun bar(): u64 { 42 }
+   │         ^^^ called from function `0x42::n::test`
+   ·
+14 │         assert!(m::foo() == 42, 1);
+   │                 -------- from a call inlined at this callsite

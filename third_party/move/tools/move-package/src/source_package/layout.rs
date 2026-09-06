@@ -1,0 +1,78 @@
+// Parts of the file are Copyright (c) The Diem Core Contributors
+// Parts of the file are Copyright (c) The Move Contributors
+// Parts of the file are Copyright (c) Aptos Foundation
+// All Aptos Foundation code and content is licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use anyhow::{bail, Result};
+use std::path::{Path, PathBuf};
+
+/// References file for documentation generation
+pub const REFERENCE_TEMPLATE_FILENAME: &str = "references.md";
+
+#[derive(Debug, Clone, Eq, PartialEq)]
+pub enum SourcePackageLayout {
+    Sources,
+    Specifications,
+    Tests,
+    Scripts,
+    Examples,
+    Manifest,
+    DocTemplates,
+    Build,
+}
+
+impl SourcePackageLayout {
+    /// A Move source package is laid out on-disk as
+    /// a_move_package
+    /// ├── Move.toml      (required)
+    /// ├── sources        (required)
+    /// ├── examples       (optional, dev mode)
+    /// ├── scripts        (optional)
+    /// ├── specifications (optional)
+    /// ├── doc_templates      (optional)
+    /// ├── tests          (optional, test mode)
+    /// └── build          (created by package build to contain build artifacts)
+    pub fn path(&self) -> &Path {
+        Path::new(self.location_str())
+    }
+
+    pub fn try_find_root(starting_path: &Path) -> Result<PathBuf> {
+        let mut current_path = starting_path.to_path_buf();
+        loop {
+            if current_path.join(Self::Manifest.path()).is_file() {
+                break Ok(current_path);
+            }
+            if !current_path.pop() {
+                bail!(
+                    "Unable to find package manifest in '{}' or in its parents",
+                    starting_path.to_string_lossy()
+                )
+            }
+        }
+    }
+
+    pub fn location_str(&self) -> &'static str {
+        match self {
+            Self::Sources => "sources",
+            Self::Manifest => "Move.toml",
+            Self::Tests => "tests",
+            Self::Scripts => "scripts",
+            Self::Examples => "examples",
+            Self::Specifications => "specifications",
+            Self::DocTemplates => "doc_templates",
+            Self::Build => "build",
+        }
+    }
+
+    pub fn is_optional(&self) -> bool {
+        match self {
+            Self::Sources | Self::Manifest => false,
+            Self::Tests
+            | Self::Scripts
+            | Self::Examples
+            | Self::Specifications
+            | Self::DocTemplates
+            | Self::Build => true,
+        }
+    }
+}

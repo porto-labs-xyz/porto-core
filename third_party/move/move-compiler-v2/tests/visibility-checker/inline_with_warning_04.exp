@@ -1,0 +1,34 @@
+
+Diagnostics:
+warning: package inline function `blah` calls `n::foo` which may not be accessible when expanded
+  ┌─ tests/visibility-checker/inline_with_warning_04.move:2:24
+  │
+2 │     package inline fun blah(): u64 {
+  │                        ^^^^ contains calls that may be inaccessible when expanded, such as from a module in this package that is not a friend of `0xdeadbeef::n`
+3 │         0xdeadbeef::n::foo()
+  │         -------------------- friend function may not be accessible in all contexts where `blah` can be called
+
+// -- Model dump before first bytecode pipeline
+module 0xdeadbeef::n {
+    friend fun foo(): u64 {
+        42
+    }
+} // end 0xdeadbeef::n
+module 0xdeadbeef::m {
+    friend inline fun blah(): u64 {
+        n::foo()
+    }
+} // end 0xdeadbeef::m
+
+// -- Sourcified model before first bytecode pipeline
+module 0xdeadbeef::n {
+    friend 0xdeadbeef::m;
+    friend fun foo(): u64 {
+        42
+    }
+}
+module 0xdeadbeef::m {
+    friend inline fun blah(): u64 {
+        0xdeadbeef::n::foo()
+    }
+}

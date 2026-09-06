@@ -1,0 +1,28 @@
+processed 6 tasks
+task 0 lines 1-15:  publish [module 0x22::A]
+task 1 lines 19-27:  run --signers 0x1 [script]
+task 2 lines 31-39:  run --signers 0x1 [script]
+Error: Script execution failed with VMError: {
+    major_status: UNKNOWN_INVARIANT_VIOLATION_ERROR,
+    sub_status: Some(1),
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 3 lines 43-51:  run --signers 0x1 [script]
+Error: Script execution failed with VMError: {
+    major_status: UNKNOWN_INVARIANT_VIOLATION_ERROR,
+    sub_status: Some(1),
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 4 lines 55-66:  run --signers 0x1 [script]
+task 5 lines 70-81:  run --signers 0x1 [script]
+Error: Script execution failed with VMError: {
+    major_status: UNKNOWN_INVARIANT_VIOLATION_ERROR,
+    sub_status: Some(1),
+    location: undefined,
+    indices: [],
+    offsets: [],
+}

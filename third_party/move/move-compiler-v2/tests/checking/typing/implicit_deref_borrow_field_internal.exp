@@ -1,0 +1,18 @@
+
+Diagnostics:
+error: Invalid operation: field access on `X::S` can only be done within module `0x2::X`
+   ┌─ tests/checking/typing/implicit_deref_borrow_field_internal.move:12:9
+   │
+12 │     fun t0() {
+   │         ^^
+13 │         (X::s().f: u64);
+   │          -------- field access here
+
+error: Invalid operation: field access on `X::S` can only be done within module `0x2::X`
+   ┌─ tests/checking/typing/implicit_deref_borrow_field_internal.move:12:9
+   │
+12 │     fun t0() {
+   │         ^^
+   ·
+15 │         (s.f: u64);
+   │          --- field access here

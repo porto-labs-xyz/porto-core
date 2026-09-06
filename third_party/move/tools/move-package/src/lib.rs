@@ -1,0 +1,297 @@
+// Parts of the file are Copyright (c) The Diem Core Contributors
+// Parts of the file are Copyright (c) The Move Contributors
+// Parts of the file are Copyright (c) Aptos Foundation
+// All Aptos Foundation code and content is licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+mod package_lock;
+
+pub mod compilation;
+pub mod package_hooks;
+pub mod resolution;
+pub mod source_package;
+
+use crate::{
+    compilation::{
+        build_plan::{BuildPlan, CompilerDriverResult},
+        compiled_package::CompiledPackage,
+        model_builder::ModelBuilder,
+    },
+    package_lock::PackageLock,
+    resolution::resolution_graph::{ResolutionGraph, ResolvedGraph},
+    source_package::manifest_parser,
+};
+use anyhow::Result;
+use clap::*;
+use legacy_move_compiler::{
+    command_line::SKIP_ATTRIBUTE_CHECKS, shared::known_attributes::KnownAttribute,
+};
+use move_compiler_v2::external_checks::ExternalChecks;
+use move_core_types::{
+    account_address::AccountAddress,
+    diag_writer::{Buffer, DiagWriter},
+};
+use move_model::{
+    metadata::{CompilerVersion, LanguageVersion},
+    model,
+};
+use serde::{Deserialize, Serialize};
+use source_package::{layout::SourcePackageLayout, std_lib::StdVersion};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    io::Write,
+    path::{Path, PathBuf},
+    sync::{Arc, Mutex},
+};
+
+#[derive(Debug, Parser, Clone, Serialize, Deserialize, Eq, PartialEq, PartialOrd, Default)]
+#[clap(author, version, about)]
+pub struct BuildConfig {
+    /// Compile in 'dev' mode. The 'dev-addresses' and 'dev-dependencies' fields will be used if
+    /// this flag is set. This flag is useful for development of packages that expose named
+    /// addresses that are not set to a specific value.
+    #[clap(name = "dev-mode", short = 'd', long = "dev", global = true)]
+    pub dev_mode: bool,
+
+    /// Compile in 'test' mode. The 'dev-addresses' and 'dev-dependencies' fields will be used
+    /// along with any code in the 'tests' directory.
+    #[clap(name = "test-mode", long = "test", global = true)]
+    pub test_mode: bool,
+
+    /// Compile in 'verify' mode. The '#[verify_only]' code will be included.
+    #[clap(name = "verify-mode", long = "verify", global = true)]
+    pub verify_mode: bool,
+
+    /// Whether to override the standard library with the given version.
+    #[clap(long = "override-std", global = true, value_parser)]
+    pub override_std: Option<StdVersion>,
+
+    /// Generate documentation for packages
+    #[clap(name = "generate-docs", long = "doc", global = true)]
+    pub generate_docs: bool,
+
+    /// Generate ABIs for packages
+    #[clap(name = "generate-abis", long = "abi", global = true)]
+    pub generate_abis: bool,
+
+    /// Whether to generate a move model. Used programmatically only.
+    #[clap(skip)]
+    pub generate_move_model: bool,
+
+    /// Whether the generated model shall contain all functions, including test-only ones.
+    #[clap(skip)]
+    pub full_model_generation: bool,
+
+    /// Installation directory for compiled artifacts. Defaults to current directory.
+    #[clap(long = "install-dir", value_parser, global = true)]
+    pub install_dir: Option<PathBuf>,
+
+    /// Force recompilation of all packages
+    #[clap(name = "force-recompilation", long = "force", global = true)]
+    pub force_recompilation: bool,
+
+    /// Additional named address mapping. Useful for tools in rust
+    #[clap(skip)]
+    pub additional_named_addresses: BTreeMap<String, AccountAddress>,
+
+    /// Named addresses that unconditionally override any conflicting package-level
+    /// assignment.  Unlike `additional_named_addresses` (which errors on conflict),
+    /// entries here always win.  Populated by the `--named-address` replay flag.
+    #[clap(skip)]
+    pub forced_named_addresses: BTreeMap<String, AccountAddress>,
+
+    /// Only fetch dependency repos to MOVE_HOME
+    #[clap(long = "fetch-deps-only", global = true)]
+    pub fetch_deps_only: bool,
+
+    /// Skip fetching latest git dependencies
+    #[clap(long = "skip-fetch-latest-git-deps", global = true)]
+    pub skip_fetch_latest_git_deps: bool,
+
+    #[clap(flatten)]
+    pub compiler_config: CompilerConfig,
+}
+
+#[derive(Parser, Clone, Serialize, Deserialize, Eq, PartialEq, PartialOrd, Default, Debug)]
+pub struct CompilerConfig {
+    /// Bytecode version to compile move code
+    #[clap(long, global = true)]
+    pub bytecode_version: Option<u32>,
+
+    // Known attribute names.  Depends on compilation context (Move variant)
+    #[clap(skip = KnownAttribute::get_all_attribute_names().clone())]
+    pub known_attributes: BTreeSet<String>,
+
+    /// Do not complain about an unknown attribute in Move code.
+    #[clap(long = SKIP_ATTRIBUTE_CHECKS, default_value = "false")]
+    pub skip_attribute_checks: bool,
+
+    /// Compiler version to use
+    #[clap(long, global = true, value_parser = clap::value_parser!(CompilerVersion))]
+    pub compiler_version: Option<CompilerVersion>,
+
+    /// Language version to support
+    #[clap(long, global = true, value_parser = clap::value_parser!(LanguageVersion))]
+    pub language_version: Option<LanguageVersion>,
+
+    /// Experiments for v2 compiler to set to true
+    #[clap(long, global = true)]
+    pub experiments: Vec<String>,
+
+    /// Controls where compiler diagnostics are written.
+    /// `Some(true)`: stderr (default for CLI). `Some(false)`: discard.
+    /// `None`: caller is responsible for capturing diagnostics.
+    #[clap(skip)]
+    pub print_errors: Option<bool>,
+}
+
+impl CompilerConfig {
+    /// Create a diagnostics writer based on [`Self::print_errors`].
+    /// `Some(true)`: stderr. `Some(false)`: discard. `None`: in-memory buffer.
+    /// The buffer handle is `Some` only for `None`, allowing the caller to
+    /// flush captured diagnostics.
+    pub fn error_writer(&self) -> (DiagWriter, Option<Arc<Mutex<Buffer>>>) {
+        match self.print_errors {
+            Some(true) => (DiagWriter::stderr(), None),
+            Some(false) => (DiagWriter::sink(), None),
+            None => {
+                let (w, b) = DiagWriter::new_buffer();
+                (w, Some(b))
+            },
+        }
+    }
+}
+
+#[derive(Debug, Clone, Eq, PartialEq, PartialOrd)]
+pub struct ModelConfig {
+    /// If set, also files which are in dependent packages are considered as targets.
+    pub all_files_as_targets: bool,
+    /// If set, a string how targets are filtered. A target is included if its file name
+    /// contains this string. This is similar as the `cargo test <string>` idiom.
+    pub target_filter: Option<String>,
+    /// The compiler version used to build the model
+    pub compiler_version: CompilerVersion,
+    /// The language version used to build the model
+    pub language_version: LanguageVersion,
+    /// If set, the full compiler pipeline including bytecode generation is run.
+    /// Required by the prover which operates on FileFormat bytecode.
+    /// When false (default for most uses), only the type checker and AST
+    /// transforms are executed.
+    pub with_bytecode: bool,
+}
+
+impl BuildConfig {
+    /// Compile the package at `path` or the containing Move package. Exit process on warning or
+    /// failure.
+    pub fn compile_package<W: Write>(self, path: &Path, writer: &mut W) -> Result<CompiledPackage> {
+        let config = self.compiler_config.clone(); // Need clone because of mut self
+        let resolved_graph = self.resolution_graph_for_package(path, writer)?;
+        let mutx = PackageLock::lock();
+        let ret = BuildPlan::create(resolved_graph)?.compile(&config, writer);
+        mutx.unlock();
+        ret
+    }
+
+    /// Compile the package at `path` or the containing Move package. Do not exit process on warning
+    /// or failure.
+    /// External checks on Move code can be provided, these are only run if compiler v2 is used.
+    pub fn compile_package_no_exit<W: Write>(
+        self,
+        resolved_graph: ResolvedGraph,
+        external_checks: Vec<Arc<dyn ExternalChecks>>,
+        writer: &mut W,
+    ) -> Result<(CompiledPackage, Option<model::GlobalEnv>)> {
+        let config = self.compiler_config.clone(); // Need clone because of mut self
+        let mutx = PackageLock::lock();
+        let ret =
+            BuildPlan::create(resolved_graph)?.compile_no_exit(&config, external_checks, writer);
+        mutx.unlock();
+        ret
+    }
+
+    /// Like [`compile_package_no_exit`](Self::compile_package_no_exit) but accepts a custom
+    /// compiler driver, allowing callers to control where compiler diagnostics are written.
+    pub fn compile_package_no_exit_with_driver<W: Write>(
+        self,
+        resolved_graph: ResolvedGraph,
+        external_checks: Vec<Arc<dyn ExternalChecks>>,
+        writer: &mut W,
+        driver: impl FnMut(move_compiler_v2::Options) -> CompilerDriverResult,
+    ) -> Result<(CompiledPackage, Option<model::GlobalEnv>)> {
+        let config = self.compiler_config.clone();
+        let mutx = PackageLock::lock();
+        let ret = BuildPlan::create(resolved_graph)?.compile_with_driver(
+            writer,
+            &config,
+            external_checks,
+            driver,
+        );
+        mutx.unlock();
+        ret
+    }
+
+    // NOTE: If there are no renamings, then the root package has the global resolution of all named
+    // addresses in the package graph in scope. So we can simply grab all of the source files
+    // across all packages and build the Move model from that.
+    // TODO: In the future we will need a better way to do this to support renaming in packages
+    // where we want to support building a Move model.
+
+    /// Build the Move model for the package at `path`.
+    ///
+    /// Only fails on I/O errors; all compilation errors and warnings are stored
+    /// in the returned `GlobalEnv`. Use `env.check_errors(msg)?` at call sites
+    /// where compilation errors should be fatal.
+    ///
+    /// See [`ModelConfig::with_bytecode`] for the effect of that flag.
+    pub fn move_model_for_package(
+        self,
+        path: &Path,
+        model_config: ModelConfig,
+    ) -> Result<model::GlobalEnv> {
+        // resolution graph diagnostics are only needed for CLI commands so ignore them by passing a
+        // vector as the writer
+        let resolved_graph = self.resolution_graph_for_package(path, &mut Vec::new())?;
+        let mutx = PackageLock::lock();
+        let ret = ModelBuilder::create(resolved_graph, model_config).build_model();
+        mutx.unlock();
+        ret
+    }
+
+    pub fn download_deps_for_package<W: Write>(&self, path: &Path, writer: &mut W) -> Result<()> {
+        let path = SourcePackageLayout::try_find_root(path)?;
+        let toml_manifest =
+            self.parse_toml_manifest(path.join(SourcePackageLayout::Manifest.path()))?;
+        let mutx = PackageLock::strict_lock();
+        // This should be locked as it inspects the environment for `MOVE_HOME` which could
+        // possibly be set by a different process in parallel.
+        let manifest = manifest_parser::parse_source_manifest(toml_manifest)?;
+        ResolutionGraph::download_dependency_repos(&manifest, self, &path, writer)?;
+        mutx.unlock();
+        Ok(())
+    }
+
+    pub fn resolution_graph_for_package<W: Write>(
+        mut self,
+        path: &Path,
+        writer: &mut W,
+    ) -> Result<ResolvedGraph> {
+        if self.test_mode {
+            self.dev_mode = true;
+        }
+        let path = SourcePackageLayout::try_find_root(path)?;
+        let toml_manifest =
+            self.parse_toml_manifest(path.join(SourcePackageLayout::Manifest.path()))?;
+        let mutx = PackageLock::lock();
+        // This should be locked as it inspects the environment for `MOVE_HOME` which could
+        // possibly be set by a different process in parallel.
+        let manifest = manifest_parser::parse_source_manifest(toml_manifest)?;
+        let resolution_graph = ResolutionGraph::new(manifest, path, self, writer)?;
+        let ret = resolution_graph.resolve();
+        mutx.unlock();
+        ret
+    }
+
+    fn parse_toml_manifest(&self, path: PathBuf) -> Result<toml::Value> {
+        let manifest_string = std::fs::read_to_string(path)?;
+        manifest_parser::parse_move_manifest_string(manifest_string)
+    }
+}

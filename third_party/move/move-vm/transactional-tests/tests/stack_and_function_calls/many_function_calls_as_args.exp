@@ -1,0 +1,3 @@
+processed 2 tasks
+task 0 lines 1-48:  publish [module 0x1::A]
+task 1 lines 52-82:  run [script]

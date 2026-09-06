@@ -1,0 +1,211 @@
+// Copyright (c) Aptos Foundation
+// Licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+// Copyright (c) The Diem Core Contributors
+// Copyright (c) The Move Contributors
+// SPDX-License-Identifier: Apache-2.0
+
+use aptos_gas_schedule::gas_params::natives::move_stdlib::*;
+use aptos_native_interface::{
+    safely_pop_arg, RawSafeNative, SafeNativeBuilder, SafeNativeContext, SafeNativeError,
+    SafeNativeResult,
+};
+use aptos_types::on_chain_config::TimedFeatureFlag;
+use move_core_types::{
+    gas_algebra::{NumBytes, NumTypeNodes},
+    language_storage::{OPTION_NONE_TAG, OPTION_SOME_TAG},
+    vm_status::sub_status::NFE_BCS_SERIALIZATION_FAILURE,
+};
+use move_vm_runtime::{constant_serialized_size, native_functions::NativeFunction};
+use move_vm_types::{
+    loaded_data::runtime_types::Type,
+    natives::function::PartialVMResult,
+    value_serde::ValueSerDeContext,
+    values::{values_impl::Reference, Struct, Value},
+};
+use smallvec::{smallvec, SmallVec};
+use std::collections::VecDeque;
+
+pub fn create_option_u64(enum_option_enabled: bool, value: Option<u64>) -> Value {
+    if enum_option_enabled {
+        match value {
+            Some(value) => Value::struct_(Struct::pack_variant(OPTION_SOME_TAG, vec![Value::u64(
+                value,
+            )])),
+            None => Value::struct_(Struct::pack_variant(OPTION_NONE_TAG, vec![])),
+        }
+    } else {
+        Value::struct_(Struct::pack(vec![Value::vector_u64(value)]))
+    }
+}
+
+/***************************************************************************************************
+ * native fun to_bytes
+ *
+ *   gas cost: size_of(val_type) * input_unit_cost +        | get type layout
+ *             size_of(val) * input_unit_cost +             | serialize value
+ *             max(size_of(output), 1) * output_unit_cost
+ *
+ *             If any of the first two steps fails, a partial cost + an additional failure_cost
+ *             will be charged.
+ *
+ **************************************************************************************************/
+/// Rust implementation of Move's `native public fun to_bytes<T>(&T): vector<u8>`
+fn native_to_bytes(
+    context: &mut SafeNativeContext,
+    ty_args: &[Type],
+    mut args: VecDeque<Value>,
+) -> SafeNativeResult<SmallVec<[Value; 1]>> {
+    debug_assert!(ty_args.len() == 1);
+    debug_assert!(args.len() == 1);
+
+    let ref_to_val = safely_pop_arg!(args, Reference);
+    let arg_type = &ty_args[0];
+
+    let layout = if context.get_feature_flags().is_lazy_loading_enabled() {
+        // With lazy loading, propagate the error directly. This is because errors here are likely
+        // from metering, so we should not remap them in any way. Note that makes it possible to
+        // fail on constructing a very deep / large layout and not be charged, but this is already
+        // the case for regular execution, so we keep it simple. Also, charging more gas after
+        // out-of-gas failure in layout construction does not make any sense.
+        //
+        // Example:
+        //   - Constructing layout runs into dependency limit.
+        //   - We cannot do `context.charge(BCS_TO_BYTES_FAILURE)?;` because then we can end up in
+        //     the state where out of gas and dependency limit are hit at the same time.
+        context.type_to_type_layout(arg_type)?
+    } else {
+        match context.type_to_type_layout(arg_type) {
+            Ok(layout) => layout,
+            Err(_) => {
+                context.charge(BCS_TO_BYTES_FAILURE)?;
+                return Err(SafeNativeError::abort(NFE_BCS_SERIALIZATION_FAILURE));
+            },
+        }
+    };
+
+    // TODO(#14175): Reading the reference performs a deep copy, and we can
+    //               implement it in a more efficient way.
+    let val = ref_to_val.read_ref()?;
+
+    let function_value_extension = context.function_value_extension();
+    let max_value_nest_depth = context.max_value_nest_depth();
+    let serialized_value = match ValueSerDeContext::new(max_value_nest_depth)
+        .with_legacy_signer()
+        .with_func_args_deserialization(&function_value_extension)
+        .serialize(&val, &layout)?
+    {
+        Some(serialized_value) => serialized_value,
+        None => {
+            context.charge(BCS_TO_BYTES_FAILURE)?;
+            return Err(SafeNativeError::abort(NFE_BCS_SERIALIZATION_FAILURE));
+        },
+    };
+    context
+        .charge(BCS_TO_BYTES_PER_BYTE_SERIALIZED * NumBytes::new(serialized_value.len() as u64))?;
+
+    Ok(smallvec![Value::vector_u8(serialized_value)])
+}
+
+/***************************************************************************************************
+ * native fun serialized_size
+ *
+ *   gas cost: size_of(output)
+ *
+ *   If the getting the type layout or serialization results in error, a special failure
+ *   cost is charged.
+ *
+ **************************************************************************************************/
+fn native_serialized_size(
+    context: &mut SafeNativeContext,
+    ty_args: &[Type],
+    mut args: VecDeque<Value>,
+) -> SafeNativeResult<SmallVec<[Value; 1]>> {
+    debug_assert!(ty_args.len() == 1);
+    debug_assert!(args.len() == 1);
+
+    context.charge(BCS_SERIALIZED_SIZE_BASE)?;
+
+    let reference = safely_pop_arg!(args, Reference);
+    let ty = &ty_args[0];
+
+    let serialized_size = match serialized_size_impl(context, reference, ty) {
+        Ok(serialized_size) => serialized_size as u64,
+        Err(_) => {
+            context.charge(BCS_SERIALIZED_SIZE_FAILURE)?;
+
+            // Re-use the same abort code as bcs::to_bytes.
+            return Err(SafeNativeError::abort(NFE_BCS_SERIALIZATION_FAILURE));
+        },
+    };
+    context.charge(BCS_SERIALIZED_SIZE_PER_BYTE_SERIALIZED * NumBytes::new(serialized_size))?;
+
+    Ok(smallvec![Value::u64(serialized_size)])
+}
+
+fn serialized_size_impl(
+    context: &mut SafeNativeContext,
+    reference: Reference,
+    ty: &Type,
+) -> PartialVMResult<usize> {
+    // TODO(#14175): Reading the reference performs a deep copy, and we can
+    //               implement it in a more efficient way.
+    let value = reference.read_ref()?;
+    let ty_layout = context.type_to_type_layout(ty)?;
+
+    let function_value_extension = context.function_value_extension();
+    let max_value_nest_depth = context.max_value_nest_depth();
+    ValueSerDeContext::new(max_value_nest_depth)
+        .with_legacy_signer()
+        .with_func_args_deserialization(&function_value_extension)
+        .with_delayed_fields_serde()
+        .serialized_size(&value, &ty_layout)
+}
+
+fn native_constant_serialized_size(
+    context: &mut SafeNativeContext,
+    ty_args: &[Type],
+    _args: VecDeque<Value>,
+) -> SafeNativeResult<SmallVec<[Value; 1]>> {
+    debug_assert!(ty_args.len() == 1);
+
+    context.charge(BCS_CONSTANT_SERIALIZED_SIZE_BASE)?;
+
+    let ty = &ty_args[0];
+    let ty_layout = context.type_to_type_layout(ty)?;
+
+    let use_local_struct_cache =
+        context.timed_feature_enabled(TimedFeatureFlag::ConstantSerializedSizeLocalCache);
+    let (visited_count, serialized_size_result) =
+        constant_serialized_size(&ty_layout, use_local_struct_cache);
+    context
+        .charge(BCS_CONSTANT_SERIALIZED_SIZE_PER_TYPE_NODE * NumTypeNodes::new(visited_count))?;
+
+    let enum_option_enabled = context.get_feature_flags().is_enum_option_enabled();
+    let result = match serialized_size_result {
+        Ok(value) => create_option_u64(enum_option_enabled, value.map(|v| v as u64)),
+        Err(_) => {
+            context.charge(BCS_SERIALIZED_SIZE_FAILURE)?;
+
+            // Re-use the same abort code as bcs::to_bytes.
+            return Err(SafeNativeError::abort(NFE_BCS_SERIALIZATION_FAILURE));
+        },
+    };
+
+    Ok(smallvec![result])
+}
+
+/***************************************************************************************************
+ * module
+ **************************************************************************************************/
+pub fn make_all(
+    builder: &SafeNativeBuilder,
+) -> impl Iterator<Item = (String, NativeFunction)> + '_ {
+    let funcs = [
+        ("to_bytes", native_to_bytes as RawSafeNative),
+        ("serialized_size", native_serialized_size),
+        ("constant_serialized_size", native_constant_serialized_size),
+    ];
+
+    builder.make_named_natives(funcs)
+}

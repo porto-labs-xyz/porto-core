@@ -1,0 +1,7 @@
+processed 6 tasks
+task 0 lines 1-12:  publish [module 0x1::A]
+task 1 lines 16-27:  publish [module 0x1::A]
+task 2 lines 31-42:  publish [module 0x1::A]
+task 3 lines 46-57:  publish [module 0x1::A]
+task 4 lines 61-72:  publish [module 0x1::A]
+task 5 lines 76-87:  publish [module 0x1::A]

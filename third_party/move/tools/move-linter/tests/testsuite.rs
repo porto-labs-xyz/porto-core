@@ -1,0 +1,81 @@
+// Copyright (c) Aptos Foundation
+// Licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use codespan_reporting::{diagnostic::Severity, term::termcolor::Buffer};
+use move_compiler_v2::{diagnostics::human::HumanEmitter, run_move_compiler, Experiment};
+use move_linter::MoveLintChecks;
+use move_model::metadata::{CompilerVersion, LanguageVersion};
+use move_prover_test_utils::baseline_test;
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    path::{Path, PathBuf},
+};
+
+/// Extension for expected output files.
+pub const EXP_EXT: &str = "exp";
+
+datatest_stable::harness!(test_runner, "tests", r".*\.move$");
+
+fn test_runner(path: &Path) -> datatest_stable::Result<()> {
+    let compiler_options = move_compiler_v2::Options {
+        sources: vec![path.display().to_string()],
+        dependencies: vec![path_from_crate_root("../../move-stdlib/sources")],
+        named_address_mapping: vec![
+            "std=0x1".to_string(),
+            "aptos_std=0x1".to_string(),
+            "aptos_framework=0x1".to_string(),
+        ],
+        language_version: Some(LanguageVersion::latest()),
+        compiler_version: Some(CompilerVersion::latest_stable()),
+        experiments: vec![Experiment::LINT_CHECKS.to_string()],
+        known_attributes: BTreeSet::from([
+            "view".to_string(),
+            "resource_group".to_string(),
+            "resource_group_member".to_string(),
+        ]),
+        external_checks: vec![MoveLintChecks::make(make_config_from_dir(path))],
+        ..Default::default()
+    };
+    let mut output = String::new();
+    let mut error_writer = Buffer::no_color();
+    let mut emitter = HumanEmitter::new(&mut error_writer);
+    match run_move_compiler(&mut emitter, compiler_options) {
+        Err(e) => {
+            output.push_str(&format!(
+                "Aborting with compilation errors:\n{:#}\n{}\n",
+                e,
+                String::from_utf8_lossy(&error_writer.into_inner())
+            ));
+        },
+        Ok((env, _)) => {
+            env.report_diag(&mut error_writer, Severity::Warning);
+            let diag = String::from_utf8_lossy(&error_writer.into_inner()).to_string();
+            if !diag.is_empty() {
+                output.push_str(&format!("\nDiagnostics:\n{}", diag));
+            } else {
+                output.push_str("\nNo errors or warnings!");
+            }
+        },
+    }
+    // Generate/check baseline.
+    let baseline_path = path.with_extension(EXP_EXT);
+    baseline_test::verify_or_update_baseline(baseline_path.as_path(), &output)?;
+    Ok(())
+}
+
+/// Derives the `MoveLintChecks::make` config from the test path.
+fn make_config_from_dir(path: &Path) -> BTreeMap<String, String> {
+    let checks_tier = if path.components().any(|c| c.as_os_str() == "default-only") {
+        "default"
+    } else {
+        "experimental"
+    };
+    BTreeMap::from([("checks".to_string(), checks_tier.to_string())])
+}
+
+/// Returns a path relative to the crate root.
+fn path_from_crate_root(path: &str) -> String {
+    let mut buf = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    buf.push(path);
+    buf.to_string_lossy().to_string()
+}

@@ -1,0 +1,56 @@
+// Parts of the file are Copyright (c) The Diem Core Contributors
+// Parts of the file are Copyright (c) The Move Contributors
+// Parts of the file are Copyright (c) Aptos Foundation
+// All Aptos Foundation code and content is licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use move_core_types::{account_address::AccountAddress, effects::ChangeSet};
+use move_stdlib::{
+    natives::{all_natives, nursery_natives, GasParameters, NurseryGasParameters},
+    path_in_crate,
+};
+use move_unit_test::{
+    package_test::{run_move_unit_tests, UnitTestResult},
+    UnitTestingConfig,
+};
+use tempfile::tempdir;
+
+fn run_tests_for_pkg(path_to_pkg: impl Into<String>, include_nursery_natives: bool) {
+    let pkg_path = path_in_crate(path_to_pkg);
+
+    let mut natives = all_natives(
+        AccountAddress::from_hex_literal("0x1").unwrap(),
+        GasParameters::zeros(),
+    );
+    if include_nursery_natives {
+        natives.extend(nursery_natives(
+            AccountAddress::from_hex_literal("0x1").unwrap(),
+            NurseryGasParameters::zeros(),
+        ))
+    }
+
+    let result = run_move_unit_tests(
+        &pkg_path,
+        move_package::BuildConfig {
+            test_mode: true,
+            install_dir: Some(tempdir().unwrap().path().to_path_buf()),
+            ..Default::default()
+        },
+        UnitTestingConfig::default(),
+        natives,
+        ChangeSet::new(),
+        /* gas_limit */ Some(100_000),
+        /* cost_table */ None,
+        /* compute_coverage */ false,
+        &mut std::io::stdout(),
+        false,
+    );
+    if result.is_err() || result.is_ok_and(|r| r == UnitTestResult::Failure) {
+        panic!("aborting because of Move unit test failures")
+    }
+}
+
+#[test]
+fn move_unit_tests() {
+    run_tests_for_pkg(".", false);
+    run_tests_for_pkg("nursery", true);
+}

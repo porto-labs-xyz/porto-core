@@ -1,0 +1,30 @@
+Move prover returns: exiting with condition generation errors
+error: imperative expressions not supported in specs
+   ┌─ tests/sources/functional/inline-lambda.move:39:47
+   │
+39 │         inline_1(y, |x| x > 2, |x| x > z, |x| { while(z < y) {let _x = x;}; x > 5 } spec { // error: imperative expressions not supported in specs
+   │                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: imperative expressions not supported in specs
+   ┌─ tests/sources/functional/inline-lambda.move:60:25
+   │
+60 │         inline_2(y, |x| { while(z < y) {let _x = x;}; x > 5 } spec { // error: imperative expressions not supported in specs
+   │                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: imperative expressions not supported in specs
+   ┌─ tests/sources/functional/inline-lambda.move:69:25
+   │
+69 │         inline_2(y, |x| { if (x == 0) { abort 1; }; x > 5  } spec { // error: imperative expressions not supported in specs
+   │                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: imperative expressions not supported in specs
+   ┌─ tests/sources/functional/inline-lambda.move:78:47
+   │
+78 │         inline_1(y, |x| x > 2, |x| x > z, |x| { while(z < y) {let _x = x;}; x > 5 } spec { // error: imperative expressions not supported in specs
+   │                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: imperative expressions not supported in specs
+   ┌─ tests/sources/functional/inline-lambda.move:87:47
+   │
+87 │         inline_1(y, |x| x > 2, |x| x > z, |x| { while(z < y) {let _x = x;}; x > 5 } spec // error: imperative expressions not supported in specs
+   │                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
