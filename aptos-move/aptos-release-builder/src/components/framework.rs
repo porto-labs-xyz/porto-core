@@ -21,7 +21,7 @@ pub struct FrameworkReleaseConfig {
     /// Optional list of specific framework packages to include.
     /// If None or empty, all packages will be included.
     /// Valid package names: "move-stdlib", "aptos-stdlib", "aptos-framework",
-    /// "aptos-token", "aptos-token-objects", "aptos-trading"
+    /// "aptos-trading"
     #[serde(default)]
     pub packages: Option<Vec<String>>,
 }
@@ -51,12 +51,6 @@ pub fn generate_upgrade_proposals(
             "0x1",
             "aptos-move/framework/aptos-framework",
             "aptos-framework",
-        ),
-        ("0x3", "aptos-move/framework/aptos-token", "aptos-token"),
-        (
-            "0x4",
-            "aptos-move/framework/aptos-token-objects",
-            "aptos-token-objects",
         ),
         ("0x5", "aptos-move/framework/aptos-trading", "aptos-trading"),
     ];

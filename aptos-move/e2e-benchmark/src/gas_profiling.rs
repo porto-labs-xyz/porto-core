@@ -517,7 +517,7 @@ mod tests {
     use crate::gas_profiling::{
         print_gas_with_statement_summary_and_tps_header, CalibrationRunner, CalibrationWorkload,
     };
-    use aptos_cached_packages::{aptos_stdlib, aptos_token_sdk_builder};
+    use aptos_cached_packages::aptos_stdlib;
     use aptos_crypto::{bls12381, PrivateKey, Uniform};
     use aptos_move_e2e_test_harness::MoveHarnessSend;
     use aptos_sdk::move_types::{identifier::Identifier, language_storage::ModuleId};
@@ -677,117 +677,6 @@ mod tests {
             "LeaveValidatorSet100",
             account_2,
             aptos_stdlib::stake_leave_validator_set(pool_address),
-        );
-        let collection_name = "collection name".to_owned().into_bytes();
-        let token_name = "token name".to_owned().into_bytes();
-        runner.run(
-            "CreateCollection",
-            account_1,
-            aptos_token_sdk_builder::token_create_collection_script(
-                collection_name.clone(),
-                "description".to_owned().into_bytes(),
-                "uri".to_owned().into_bytes(),
-                20_000_000,
-                vec![false, false, false],
-            ),
-        );
-        runner.run(
-            "CreateTokenFirstTime",
-            account_1,
-            aptos_token_sdk_builder::token_create_token_script(
-                collection_name.clone(),
-                token_name.clone(),
-                "collection description".to_owned().into_bytes(),
-                1,
-                4,
-                "uri".to_owned().into_bytes(),
-                account_1_address,
-                1,
-                0,
-                vec![false, false, false, false, true],
-                vec!["age".as_bytes().to_vec()],
-                vec!["3".as_bytes().to_vec()],
-                vec!["int".as_bytes().to_vec()],
-            ),
-        );
-        runner.run(
-            "MintTokenV1",
-            account_1,
-            aptos_token_sdk_builder::token_mint_script(
-                account_1_address,
-                collection_name.clone(),
-                token_name.clone(),
-                1,
-            ),
-        );
-        runner.run(
-            "MutateTokenV1",
-            account_1,
-            aptos_token_sdk_builder::token_mutate_token_properties(
-                account_1_address,
-                account_1_address,
-                collection_name.clone(),
-                token_name.clone(),
-                0,
-                1,
-                vec!["age".as_bytes().to_vec()],
-                vec!["4".as_bytes().to_vec()],
-                vec!["int".as_bytes().to_vec()],
-            ),
-        );
-        runner.run(
-            "MutateToken2ndTime",
-            account_1,
-            aptos_token_sdk_builder::token_mutate_token_properties(
-                account_1_address,
-                account_1_address,
-                collection_name.clone(),
-                token_name.clone(),
-                1,
-                1,
-                vec!["age".as_bytes().to_vec()],
-                vec!["5".as_bytes().to_vec()],
-                vec!["int".as_bytes().to_vec()],
-            ),
-        );
-
-        let mut keys = vec![];
-        let mut vals = vec![];
-        let mut typs = vec![];
-        for i in 0..10 {
-            keys.push(format!("attr_{}", i).as_bytes().to_vec());
-            vals.push(format!("{}", i).as_bytes().to_vec());
-            typs.push("u64".as_bytes().to_vec());
-        }
-        runner.run(
-            "MutateTokenAdd10NewProperties",
-            account_1,
-            aptos_token_sdk_builder::token_mutate_token_properties(
-                account_1_address,
-                account_1_address,
-                collection_name.clone(),
-                token_name.clone(),
-                1,
-                1,
-                keys.clone(),
-                vals.clone(),
-                typs.clone(),
-            ),
-        );
-        runner.run(
-            "MutateTokenMutate10ExistingProperties",
-            account_1,
-            aptos_token_sdk_builder::token_mutate_token_properties(
-                account_1_address,
-                account_1_address,
-                collection_name,
-                token_name,
-                1,
-                1,
-                keys,
-                vals,
-                typs,
-            ),
         );
 
         let publisher = &runner

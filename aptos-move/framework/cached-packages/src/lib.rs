@@ -6,8 +6,6 @@ use once_cell::sync::Lazy;
 
 pub mod aptos_framework_sdk_builder;
 pub mod aptos_stdlib;
-pub mod aptos_token_objects_sdk_builder;
-pub mod aptos_token_sdk_builder;
 
 #[cfg(not(feature = "move-harness-with-test-only"))]
 const HEAD_RELEASE_BUNDLE_BYTES: &[u8] = include_bytes!("head.mrb");
