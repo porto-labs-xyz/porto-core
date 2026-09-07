@@ -51,9 +51,9 @@ use tokio::runtime::Runtime;
 
 const EPOCH_LENGTH_SECS: u64 = 60;
 
-/// Runs an Aptos validator or fullnode
+/// Runs a Porto validator or fullnode
 #[derive(Clone, Debug, Parser)]
-#[clap(name = "Aptos Node", author, version)]
+#[clap(name = "Porto Node", author, version)]
 pub struct AptosNodeArgs {
     /// Path to node configuration file (or template for local test mode).
     #[clap(
@@ -350,7 +350,7 @@ pub fn start_test_environment_node(
     println!("Completed generating configuration:");
     println!("\tLog file: {:?}", log_file);
     println!("\tTest dir: {:?}", test_dir);
-    println!("\tAptos root key path: {:?}", aptos_root_key_path);
+    println!("\tPorto root key path: {:?}", aptos_root_key_path);
     println!("\tWaypoint: {}", config.base.waypoint.genesis_waypoint());
     println!("\tChainId: {}", ChainId::test().id());
     println!("\tREST API endpoint: http://{}", &config.api.address);
@@ -359,7 +359,7 @@ pub fn start_test_environment_node(
         &config.inspection_service.address, &config.inspection_service.port
     );
     println!(
-        "\tAptosnet fullnode network endpoint: {}",
+        "\tPorto fullnode network endpoint: {}",
         &config.full_node_networks[0].listen_address
     );
     if config.indexer_grpc.enabled {
@@ -377,7 +377,7 @@ pub fn start_test_environment_node(
     if enable_lazy_mode {
         println!("\tLazy mode is enabled");
     }
-    println!("\nAptos is running, press ctrl-c to exit\n");
+    println!("\nPorto is running, press ctrl-c to exit\n");
 
     start(config, Some(log_file), false)
 }

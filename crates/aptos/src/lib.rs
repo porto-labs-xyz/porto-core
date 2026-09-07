@@ -40,7 +40,7 @@ pub fn create_move_env() -> Arc<MoveEnv> {
     ))
 }
 
-/// Command Line Interface (CLI) for developing and interacting with the Aptos blockchain
+/// Command Line Interface (CLI) for developing and interacting with the Porto blockchain
 #[derive(Parser)]
 #[clap(name = "aptos", author, version, propagate_version = true, styles = aptos_cli_common::aptos_cli_style())]
 pub enum Tool {
