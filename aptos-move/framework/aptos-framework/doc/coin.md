@@ -1076,7 +1076,7 @@ The value of aggregatable coin used for transaction fees redistribution does not
 
 <a id="0x1_coin_EAPT_PAIRING_IS_NOT_ENABLED"></a>
 
-APT pairing is not eanbled yet.
+PRT pairing is not eanbled yet.
 
 
 <pre><code><b>const</b> <a href="coin.md#0x1_coin_EAPT_PAIRING_IS_NOT_ENABLED">EAPT_PAIRING_IS_NOT_ENABLED</a>: u64 = 28;
@@ -1410,7 +1410,7 @@ Get the paired fungible asset metadata object of a coin type. If not exist, retu
 
 ## Function `create_pairing`
 
-Create APT pairing by passing <code>AptosCoin</code>.
+Create PRT pairing by passing <code>AptosCoin</code>.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="coin.md#0x1_coin_create_pairing">create_pairing</a>&lt;CoinType&gt;(aptos_framework: &<a href="../../aptos-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)

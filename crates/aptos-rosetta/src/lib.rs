@@ -58,7 +58,7 @@ impl RosettaContext {
         block_cache: Option<Arc<BlockRetriever>>,
         mut currencies: HashSet<Currency>,
     ) -> Self {
-        // Always add APT
+        // Always add PRT
         currencies.insert(native_coin());
 
         // Depending on the chain add appropriate USDC

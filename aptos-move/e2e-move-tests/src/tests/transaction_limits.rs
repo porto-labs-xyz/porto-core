@@ -30,19 +30,19 @@ use std::str::FromStr;
 
 const DEFAULT_GAS_UNIT_PRICE: u64 = 100;
 
-// Default balance is 1M APT.
+// Default balance is 1M PRT.
 const DEFAULT_BALANCE: u64 = 100_000_000_000_000;
-// Default stake amount is 0.25 APT.
+// Default stake amount is 0.25 PRT.
 const DEFAULT_STAKE: u64 = 25_000_000;
 
-// Minimum stake for delegation 20 APT (has to be above 10 APT)
+// Minimum stake for delegation 20 PRT (has to be above 10 PRT)
 const DEFAULT_DELEGATION_STAKE: u64 = 2_000_000_000;
 
-// Default tiers: 0.1 APT, 1 APT and 5 APT.
+// Default tiers: 0.1 PRT, 1 PRT and 5 PRT.
 const DEFAULT_EXECUTION_TIERS: [(u64, u64); 3] =
     [(10_000_000, 200), (100_000_000, 400), (500_000_000, 800)];
 
-// Default tiers: 0.2 APT, 2 APT and 10 APT.
+// Default tiers: 0.2 PRT, 2 PRT and 10 PRT.
 const DEFAULT_IO_TIERS: [(u64, u64); 3] =
     [(20_000_000, 200), (200_000_000, 400), (1_000_000_000, 800)];
 
@@ -255,7 +255,7 @@ fn setup_delegation_pool(
     delegator: &Account,
     stake_amount: u64,
 ) -> AccountAddress {
-    // The genesis sets a small voting-power-increase cap; a 20 APT delegation
+    // The genesis sets a small voting-power-increase cap; a 20 PRT delegation
     // pool would exceed it in a single epoch. Raise the cap so the pool can
     // join the validator set. The protocol limit is enforced by
     // `staking_config::update_voting_power_increase_limit`, but we are writing

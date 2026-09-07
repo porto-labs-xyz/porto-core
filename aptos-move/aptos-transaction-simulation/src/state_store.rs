@@ -255,7 +255,7 @@ pub trait SimulationStateStore: TStateView<Key = StateKey> {
         Ok(data)
     }
 
-    /// Fetches the APT balance of an account from the legacy coin store.
+    /// Fetches the PRT balance of an account from the legacy coin store.
     fn get_apt_balance_legacy(&self, address: AccountAddress) -> Result<u64> {
         let coin_store = match self.get_resource::<CoinStoreResource<AptosCoinType>>(address)? {
             Some(coin_store) => coin_store,
@@ -265,7 +265,7 @@ pub trait SimulationStateStore: TStateView<Key = StateKey> {
         Ok(coin_store.coin())
     }
 
-    /// Fetches the APT balance of an account from the fungible store.
+    /// Fetches the PRT balance of an account from the fungible store.
     fn get_apt_balance_fungible_store(&self, address: AccountAddress) -> Result<u64> {
         let primary_store_object_address = primary_apt_store(address);
         let resource_group =
@@ -282,13 +282,13 @@ pub trait SimulationStateStore: TStateView<Key = StateKey> {
         Ok(fungible_store.balance)
     }
 
-    /// Fetches the APT balance of an account.
+    /// Fetches the PRT balance of an account.
     /// This includes both legacy and fungible store balances.
     fn get_apt_balance(&self, address: AccountAddress) -> Result<u64> {
         Ok(self.get_apt_balance_legacy(address)? + self.get_apt_balance_fungible_store(address)?)
     }
 
-    /// Adds APT to an account's fungible store.
+    /// Adds PRT to an account's fungible store.
     fn fund_apt_fungible_store(&self, address: AccountAddress, amount: u64) -> Result<(u64, u64)> {
         let primary_store_object_address = primary_apt_store(address);
 

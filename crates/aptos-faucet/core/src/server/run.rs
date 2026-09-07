@@ -361,7 +361,7 @@ pub struct RunSimple {
     #[clap(long, default_value_t = 8081)]
     pub listen_port: u16,
 
-    /// Path to the private key file for the APT asset
+    /// Path to the private key file for the PRT asset
     #[clap(long, default_value = "/tmp/mint.key")]
     pub key_file_path: PathBuf,
 

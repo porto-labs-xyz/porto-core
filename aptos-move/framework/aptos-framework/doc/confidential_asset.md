@@ -2542,7 +2542,7 @@ Enables or disables the allow list for confidential transfers.
 
 ## Function `set_confidentiality_for_apt`
 
-Enables or disables confidentiality for the APT token.
+Enables or disables confidentiality for the PRT token.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_asset.md#0x1_confidential_asset_set_confidentiality_for_apt">set_confidentiality_for_apt</a>(aptos_framework: &<a href="../../aptos-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, allowed: bool)

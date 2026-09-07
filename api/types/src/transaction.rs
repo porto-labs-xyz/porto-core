@@ -587,7 +587,7 @@ pub struct BlockMetadataTransaction {
     /// If some, it means the internal txn type is `aptos_types::transaction::Transaction::BlockMetadataExt`.
     /// Otherwise, it is `aptos_types::transaction::Transaction::BlockMetadata`.
     ///
-    /// NOTE: we could have introduced a new APT txn type to represent the corresponding internal type,
+    /// NOTE: we could have introduced a new PRT txn type to represent the corresponding internal type,
     /// but that is a breaking change to the ecosystem.
     ///
     /// NOTE: `oai` does not support `flatten` together with `skip_serializing_if`.

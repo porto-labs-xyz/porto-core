@@ -55,7 +55,7 @@
 ///   - Added BLS12-381 operations.
 /// - V7
 ///   - Native support for `exists<T>`
-///   - New formulae for storage fees based on fixed APT costs
+///   - New formulae for storage fees based on fixed PRT costs
 ///   - Lower gas price (other than the newly introduced storage fees) by upping the scaling factor
 /// - V6
 ///   - Added a new native function - blake2b_256.

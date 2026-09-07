@@ -839,7 +839,7 @@ module aptos_framework::confidential_asset {
         }
     }
 
-    /// Enables or disables confidentiality for the APT token.
+    /// Enables or disables confidentiality for the PRT token.
     public fun set_confidentiality_for_apt(aptos_framework: &signer, allowed: bool) {
         system_addresses::assert_aptos_framework(aptos_framework);
         let asset_type = object::address_to_object<fungible_asset::Metadata>(@aptos_fungible_asset);

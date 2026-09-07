@@ -13,17 +13,17 @@ use clap::Parser;
 use serde::Serialize;
 use std::collections::BTreeMap;
 
-// TODO: Add ability to transfer non-APT coins
+// TODO: Add ability to transfer non-PRT coins
 // TODO: Add ability to not create account by default
-/// Transfer APT between accounts
+/// Transfer PRT between accounts
 ///
 #[derive(Debug, Parser)]
 pub struct TransferCoins {
-    /// Address of account to send APT to
+    /// Address of account to send PRT to
     #[clap(long, value_parser = crate::common::types::load_account_arg)]
     pub(crate) account: AccountAddress,
 
-    /// Amount of Octas (10^-8 APT) to transfer
+    /// Amount of Octas (10^-8 PRT) to transfer
     #[clap(long)]
     pub(crate) amount: u64,
 

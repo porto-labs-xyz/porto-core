@@ -41,8 +41,8 @@ module aptos_framework::aptos_coin {
 
         let (burn_cap, freeze_cap, mint_cap) = coin::initialize_with_parallelizable_supply<AptosCoin>(
             aptos_framework,
-            string::utf8(b"Aptos Coin"),
-            string::utf8(b"APT"),
+            string::utf8(b"Porto Coin"),
+            string::utf8(b"PRT"),
             8, // decimals
             true, // monitor_supply
         );
@@ -69,7 +69,7 @@ module aptos_framework::aptos_coin {
 
     /// Can only be called during genesis for tests to grant mint capability to aptos framework and core resources
     /// accounts.
-    /// Expects account and APT store to be registered before calling.
+    /// Expects account and PRT store to be registered before calling.
     public(friend) fun configure_accounts_for_test(
         aptos_framework: &signer,
         core_resources: &signer,

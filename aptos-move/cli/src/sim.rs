@@ -66,7 +66,7 @@ impl CliCommand<()> for Init {
     }
 }
 
-/// Funds an account with APT tokens
+/// Funds an account with PRT tokens
 #[derive(Debug, Parser)]
 pub struct Fund {
     /// Path to a stored session
@@ -77,7 +77,7 @@ pub struct Fund {
     #[clap(long, value_parser = aptos_cli_common::load_account_arg)]
     account: AccountAddress,
 
-    /// Funding amount, in Octa (10^-8 APT)
+    /// Funding amount, in Octa (10^-8 PRT)
     #[clap(long)]
     amount: u64,
 }

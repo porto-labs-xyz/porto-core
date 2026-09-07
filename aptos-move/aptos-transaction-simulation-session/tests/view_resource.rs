@@ -49,7 +49,7 @@ fn test_view_resource_group_for_funded_account() -> Result<()> {
     let mut session = Session::init(temp_dir.path())?;
 
     // Fund an account — this creates an ObjectGroup with a FungibleStore at
-    // the primary APT store address (derived from account address + 0xA).
+    // the primary PRT store address (derived from account address + 0xA).
     let account = Account::new();
     session.fund_account(*account.address(), 1_000_000)?;
 
@@ -59,7 +59,7 @@ fn test_view_resource_group_for_funded_account() -> Result<()> {
 
     assert!(
         result.is_some(),
-        "ObjectGroup should exist at the primary APT store address"
+        "ObjectGroup should exist at the primary PRT store address"
     );
 
     Ok(())

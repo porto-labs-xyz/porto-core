@@ -19,10 +19,10 @@ pub type AbstractValueSizePerArg = GasQuantity<UnitDiv<AbstractValueUnit, Arg>>;
 /// Unit of (external) gas.
 pub enum GasUnit {}
 
-/// Unit of the Aptos network's native coin.
-pub enum APT {}
+/// Unit of the Porto network's native coin.
+pub enum PRT {}
 
-/// Alternative unit of the Aptos network's native coin. 1 Octa = 10^-8 Aptos coins.
+/// Alternative unit of the Porto network's native coin. 1 Octa = 10^-8 Porto coins.
 pub enum Octa {}
 
 pub type Gas = GasQuantity<GasUnit>;
@@ -51,6 +51,6 @@ pub type NumModules = GasQuantity<Module>;
  * Unit Conversion
  *
  **************************************************************************************************/
-impl ToUnit<Octa> for APT {
+impl ToUnit<Octa> for PRT {
     const MULTIPLIER: u64 = 1_0000_0000;
 }

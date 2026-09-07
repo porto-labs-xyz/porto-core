@@ -199,7 +199,7 @@ Account does not exist.
 
 <a id="0x1_aptos_account_EACCOUNT_NOT_REGISTERED_FOR_APT"></a>
 
-Account is not registered to receive APT.
+Account is not registered to receive PRT.
 
 
 <pre><code><b>const</b> <a href="aptos_account.md#0x1_aptos_account_EACCOUNT_NOT_REGISTERED_FOR_APT">EACCOUNT_NOT_REGISTERED_FOR_APT</a>: u64 = 2;
@@ -247,7 +247,7 @@ Basic account creation methods.
 
 ## Function `batch_transfer`
 
-Batch version of APT transfer.
+Batch version of PRT transfer.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="aptos_account.md#0x1_aptos_account_batch_transfer">batch_transfer</a>(source: &<a href="../../aptos-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipients: <a href="../../aptos-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<b>address</b>&gt;, amounts: <a href="../../aptos-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u64&gt;)
@@ -283,8 +283,8 @@ Batch version of APT transfer.
 
 ## Function `transfer`
 
-Convenient function to transfer APT to a recipient account that might not exist.
-This would create the recipient account first, which also registers it to receive APT, before transferring.
+Convenient function to transfer PRT to a recipient account that might not exist.
+This would create the recipient account first, which also registers it to receive PRT, before transferring.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="aptos_account.md#0x1_aptos_account_transfer">transfer</a>(source: &<a href="../../aptos-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <b>to</b>: <b>address</b>, amount: u64)
@@ -685,12 +685,12 @@ By default, this returns true if an account has not explicitly set whether the c
 
 ## Function `fungible_transfer_only`
 
-APT Primary Fungible Store specific specialized functions,
-Utilized internally once migration of APT to FungibleAsset is complete.
-Convenient function to transfer APT to a recipient account that might not exist.
-This would create the recipient APT PFS first, which also registers it to receive APT, before transferring.
+PRT Primary Fungible Store specific specialized functions,
+Utilized internally once migration of PRT to FungibleAsset is complete.
+Convenient function to transfer PRT to a recipient account that might not exist.
+This would create the recipient PRT PFS first, which also registers it to receive PRT, before transferring.
 TODO: once migration is complete, rename to just "transfer_only" and make it an entry function (for cheapest way
-to transfer APT) - if we want to allow APT PFS without account itself
+to transfer PRT) - if we want to allow PRT PFS without account itself
 
 
 <pre><code><b>public</b>(<b>friend</b>) entry <b>fun</b> <a href="aptos_account.md#0x1_aptos_account_fungible_transfer_only">fungible_transfer_only</a>(source: &<a href="../../aptos-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <b>to</b>: <b>address</b>, amount: u64)
@@ -711,7 +711,7 @@ to transfer APT) - if we want to allow APT PFS without account itself
 
     // <b>use</b> <b>internal</b> APIs, <b>as</b> they skip:
     // - owner, frozen and dispatchable checks
-    // <b>as</b> APT cannot be frozen or have dispatch, and PFS cannot be transfered
+    // <b>as</b> PRT cannot be frozen or have dispatch, and PFS cannot be transfered
     // (PFS could potentially be burned. regular transfer would permanently unburn the store.
     // Ignoring the check here <b>has</b> the equivalent of unburning, transfers, and then burning again)
     <a href="fungible_asset.md#0x1_fungible_asset_withdraw_permission_check_by_address">fungible_asset::withdraw_permission_check_by_address</a>(
@@ -731,7 +731,7 @@ to transfer APT) - if we want to allow APT PFS without account itself
 
 ## Function `is_fungible_balance_at_least`
 
-Is balance from APT Primary FungibleStore at least the given amount
+Is balance from PRT Primary FungibleStore at least the given amount
 
 
 <pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="aptos_account.md#0x1_aptos_account_is_fungible_balance_at_least">is_fungible_balance_at_least</a>(<a href="account.md#0x1_account">account</a>: <b>address</b>, amount: u64): bool
@@ -759,7 +759,7 @@ Is balance from APT Primary FungibleStore at least the given amount
 
 ## Function `burn_from_fungible_store_for_gas`
 
-Burn from APT Primary FungibleStore for gas charge
+Burn from PRT Primary FungibleStore for gas charge
 
 
 <pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="aptos_account.md#0x1_aptos_account_burn_from_fungible_store_for_gas">burn_from_fungible_store_for_gas</a>(ref: &<a href="fungible_asset.md#0x1_fungible_asset_BurnRef">fungible_asset::BurnRef</a>, <a href="account.md#0x1_account">account</a>: <b>address</b>, amount: u64)
@@ -790,7 +790,7 @@ Burn from APT Primary FungibleStore for gas charge
 
 ## Function `ensure_primary_fungible_store_exists`
 
-Ensure that APT Primary FungibleStore exists (and create if it doesn't)
+Ensure that PRT Primary FungibleStore exists (and create if it doesn't)
 
 
 <pre><code><b>fun</b> <a href="aptos_account.md#0x1_aptos_account_ensure_primary_fungible_store_exists">ensure_primary_fungible_store_exists</a>(owner: <b>address</b>): <b>address</b>
@@ -822,7 +822,7 @@ Ensure that APT Primary FungibleStore exists (and create if it doesn't)
 
 ## Function `primary_fungible_store_address`
 
-Address of APT Primary Fungible Store
+Address of PRT Primary Fungible Store
 
 
 <pre><code><b>fun</b> <a href="aptos_account.md#0x1_aptos_account_primary_fungible_store_address">primary_fungible_store_address</a>(<a href="account.md#0x1_account">account</a>: <b>address</b>): <b>address</b>
@@ -909,7 +909,7 @@ Address of APT Primary Fungible Store
 
 <tr>
 <td>7</td>
-<td>When performing a batch transfer of Aptos Coin and/or a batch transfer of a custom coin type, it should ensure that the vector containing destination addresses and the vector containing the corresponding amounts are equal in length.</td>
+<td>When performing a batch transfer of Porto Coin and/or a batch transfer of a custom coin type, it should ensure that the vector containing destination addresses and the vector containing the corresponding amounts are equal in length.</td>
 <td>Low</td>
 <td>The batch_transfer and batch_transfer_coins functions verify that the length of the recipient addresses vector matches the length of the amount vector through an assertion.</td>
 <td>Formally verified via <a href="#high-level-req-7">batch_transfer_coins</a>.</td>

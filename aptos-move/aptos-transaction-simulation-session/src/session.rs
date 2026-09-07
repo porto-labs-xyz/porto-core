@@ -311,7 +311,7 @@ impl Session {
         Ok(())
     }
 
-    /// Funds an account with APT.
+    /// Funds an account with PRT.
     ///
     /// This counts as a session operation but is not a real transaction, as it modifies the
     /// storage state directly.

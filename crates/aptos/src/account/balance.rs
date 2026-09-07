@@ -82,7 +82,7 @@ impl Balance {
                 CliError::CommandArgumentError(format!("Invalid coin type '{}': {:#?}", coin, err))
             })?
         } else {
-            // If nothing is given, use the default APT
+            // If nothing is given, use the default PRT
             AptosCoinType::type_tag()
         };
 

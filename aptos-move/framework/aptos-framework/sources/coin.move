@@ -110,7 +110,7 @@ module aptos_framework::coin {
     /// The coin converison map is not created yet.
     const ECOIN_CONVERSION_MAP_NOT_FOUND: u64 = 27;
 
-    /// APT pairing is not eanbled yet.
+    /// PRT pairing is not eanbled yet.
     const EAPT_PAIRING_IS_NOT_ENABLED: u64 = 28;
 
     /// The decimals of the coin is too large.
@@ -308,7 +308,7 @@ module aptos_framework::coin {
         };
     }
 
-    /// Create APT pairing by passing `AptosCoin`.
+    /// Create PRT pairing by passing `AptosCoin`.
     public entry fun create_pairing<CoinType>(
         aptos_framework: &signer
     ) acquires CoinConversionMap, CoinInfo {

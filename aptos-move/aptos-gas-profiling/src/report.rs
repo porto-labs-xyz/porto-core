@@ -157,7 +157,7 @@ impl TransactionGasLog {
             crate::misc::strip_trailing_zeros_and_decimal_point(&scaled).to_string()
         };
 
-        // Helper to format fees in APT
+        // Helper to format fees in PRT
         let fmt_apt = |fee: Fee| -> String {
             let scaled = format!("{:.8}", u64::from(fee) as f64 / 1_0000_0000f64);
             crate::misc::strip_trailing_zeros_and_decimal_point(&scaled).to_string()
@@ -443,7 +443,7 @@ impl TransactionGasLog {
         );
         if !self.storage.event_discount.is_zero() {
             let discount_msg = format!(
-                "*This does not include a discount of {} APT which was applied to reduce the total cost for events.",
+                "*This does not include a discount of {} PRT which was applied to reduce the total cost for events.",
                 fmt_apt(self.storage.event_discount)
             );
             data.insert(

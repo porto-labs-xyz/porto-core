@@ -42,7 +42,7 @@ fn test_execute_transfer() -> Result<()> {
     let sender = Account::new();
     let recipient = Account::new();
 
-    // Create account and fund with 1 APT.
+    // Create account and fund with 1 PRT.
     session
         .state_store()
         .store_and_fund_account(sender.clone(), 1_000_000_000, 0)?;

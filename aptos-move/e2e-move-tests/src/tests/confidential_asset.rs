@@ -67,7 +67,7 @@ fn setup_harness() -> MoveHarness {
     h
 }
 
-/// Creates a test account, funded with some APT, for Alice.
+/// Creates a test account, funded with some PRT, for Alice.
 fn create_alice(h: &mut MoveHarness) -> Account {
     h.new_account_with_balance_at(
         AccountAddress::from_hex_literal(ALICE_ADDRESS).unwrap(),
@@ -75,7 +75,7 @@ fn create_alice(h: &mut MoveHarness) -> Account {
     )
 }
 
-/// Creates a test account, funded with some APT, for Bob.
+/// Creates a test account, funded with some PRT, for Bob.
 fn create_bob(h: &mut MoveHarness) -> Account {
     h.new_account_with_balance_at(
         AccountAddress::from_hex_literal(BOB_ADDRESS).unwrap(),
@@ -146,7 +146,7 @@ fn generate_keypair(h: &mut MoveHarness) -> (Vec<u8>, Vec<u8>) {
     (dk_bytes, ek_bytes)
 }
 
-/// Get APT metadata object address.
+/// Get PRT metadata object address.
 fn get_apt_metadata_address() -> AccountAddress {
     AccountAddress::from_hex_literal("0xa").unwrap()
 }
@@ -156,7 +156,7 @@ const MODULE_NAME: &str = "confidential_asset";
 #[cfg(feature = "move-harness-with-test-only")]
 const TEST_MODULE_NAME: &str = "confidential_asset_tests";
 
-/// Returns the APT metadata address. The FA pool store is created lazily by `deposit`.
+/// Returns the PRT metadata address. The FA pool store is created lazily by `deposit`.
 fn set_up_confidential_store_for_apt(_h: &mut MoveHarness) -> AccountAddress {
     get_apt_metadata_address()
 }
@@ -551,7 +551,7 @@ fn print_gas_cost(
         (gas_units * 100).separate_with_commas()
     );
     println!(
-        "|  Total APT:       {:.8} APT",
+        "|  Total PRT:       {:.8} PRT",
         (gas_units * 100) as f64 / 100_000_000f64
     );
     println!("\\-----------------------------------");
@@ -1502,9 +1502,9 @@ fn bench_gas_rotate_encryption_key_detailed() {
 /// Complete test that calls a #[test_only] function with proper setup.
 /// This test:
 /// 1. Sets up a harness (with test-only code when feature is enabled)
-/// 2. Creates Alice with APT balance
+/// 2. Creates Alice with PRT balance
 /// 3. Registers Alice for confidential assets
-/// 4. Deposits APT to Alice's confidential balance
+/// 4. Deposits PRT to Alice's confidential balance
 /// 5. Calls check_pending_balance_decrypts_to to verify the deposit succeeded
 #[test]
 #[ignore]
@@ -1513,13 +1513,13 @@ fn call_test_only_function() {
     // Use harness with test-only code included
     let mut h = setup_harness();
 
-    // Create Alice with some APT
+    // Create Alice with some PRT
     let alice = h.new_account_with_balance_at(
         AccountAddress::from_hex_literal(ALICE_ADDRESS).unwrap(),
-        10_000_000_000, // 10 APT
+        10_000_000_000, // 10 PRT
     );
 
-    // Set up the confidential store for APT
+    // Set up the confidential store for PRT
     let apt_metadata = set_up_confidential_store_for_apt(&mut h);
 
     // Generate a valid keypair for Alice

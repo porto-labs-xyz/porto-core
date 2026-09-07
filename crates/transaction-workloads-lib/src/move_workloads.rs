@@ -278,9 +278,9 @@ pub enum EntryPoints {
     /// there to slow down deserialization & verification, effectively making it more expensive to
     /// load it into code cache.
     SimpleScript,
-    /// Set up an APT transfer permission and transfering APT by using that permissioned signer.
+    /// Set up an PRT transfer permission and transfering PRT by using that permissioned signer.
     APTTransferWithPermissionedSigner,
-    /// Transfer APT using vanilla master signer to compare the performance.
+    /// Transfer PRT using vanilla master signer to compare the performance.
     APTTransferWithMasterSigner,
 
     OrderBook {

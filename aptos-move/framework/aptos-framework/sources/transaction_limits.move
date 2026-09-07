@@ -382,10 +382,10 @@ module aptos_framework::transaction_limits {
         should_end_epoch: bool,
     ) {
         // Use higher thresholds for delegation pool tests since because we
-        // need to have at least 10 APT in the pool.
+        // need to have at least 10 PRT in the pool.
         //
-        // Execution: 2x - 5 APT, 8x - 50 APT
-        // IO:        2x - 10 APT, 8x - 100 APT
+        // Execution: 2x - 5 PRT, 8x - 50 PRT
+        // IO:        2x - 10 PRT, 8x - 100 PRT
         initialize(
             aptos_framework,
             vector[new_tier(5_0000_0000, 200), new_tier(50_0000_0000, 800)],
@@ -705,7 +705,7 @@ module aptos_framework::transaction_limits {
     fun test_validate_delegation_pool_delegator_success(
         aptos_framework: &signer, pool_owner: &signer, delegator: &signer
     ) {
-        // 20 APT stake, 2x needs 5 APT for execution and 10 APT for IO, passes.
+        // 20 PRT stake, 2x needs 5 PRT for execution and 10 PRT for IO, passes.
         initialize_for_test_with_delegation_pool(
             aptos_framework,
             pool_owner,
@@ -746,7 +746,7 @@ module aptos_framework::transaction_limits {
     fun test_validate_delegation_pool_insufficient_stake(
         aptos_framework: &signer, pool_owner: &signer, delegator: &signer
     ) {
-        // 20 APT stake, but 8x execution needs 50 APT, so test fails.
+        // 20 PRT stake, but 8x execution needs 50 PRT, so test fails.
         initialize_for_test_with_delegation_pool(
             aptos_framework,
             pool_owner,
@@ -767,7 +767,7 @@ module aptos_framework::transaction_limits {
     fun test_validate_stake_pool_owner_pool_not_in_validator_set(
         aptos_framework: &signer, validator: &signer
     ) {
-        // Stake pool has plenty of APT but never joined the validator set.
+        // Stake pool has plenty of PRT but never joined the validator set.
         initialize_for_test_with_inactive_stake_pool(aptos_framework, validator, 1000);
         validate_high_txn_limits(
             @0x123,

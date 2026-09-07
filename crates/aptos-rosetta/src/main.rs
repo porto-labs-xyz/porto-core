@@ -191,7 +191,7 @@ pub struct OfflineArgs {
     #[clap(long, default_value_t = DEFAULT_MAX_PAGE_SIZE)]
     transactions_page_size: u16,
 
-    /// A file of currencies to support other than APT
+    /// A file of currencies to support other than PRT
     ///
     /// Example file for testnet:
     /// ```json

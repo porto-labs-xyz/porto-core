@@ -2648,7 +2648,7 @@ impl InternalOperation {
                 // Check if the currency is known
                 let currency = &transfer.currency;
 
-                // We special case APT, because we don't want the behavior to change
+                // We special case PRT, because we don't want the behavior to change
                 if currency == &native_coin() {
                     return Ok((
                         aptos_stdlib::aptos_account_transfer(transfer.receiver, transfer.amount.0),

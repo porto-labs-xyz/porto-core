@@ -19,7 +19,7 @@ module aptos_framework::aptos_account {
 
     /// Account does not exist.
     const EACCOUNT_NOT_FOUND: u64 = 1;
-    /// Account is not registered to receive APT.
+    /// Account is not registered to receive PRT.
     const EACCOUNT_NOT_REGISTERED_FOR_APT: u64 = 2;
     /// Account opted out of receiving coins that they did not register to receive.
     const EACCOUNT_DOES_NOT_ACCEPT_DIRECT_COIN_TRANSFERS: u64 = 3;
@@ -56,7 +56,7 @@ module aptos_framework::aptos_account {
         register_apt(&account_signer);
     }
 
-    /// Batch version of APT transfer.
+    /// Batch version of PRT transfer.
     public entry fun batch_transfer(
         source: &signer, recipients: vector<address>, amounts: vector<u64>
     ) {
@@ -72,8 +72,8 @@ module aptos_framework::aptos_account {
             });
     }
 
-    /// Convenient function to transfer APT to a recipient account that might not exist.
-    /// This would create the recipient account first, which also registers it to receive APT, before transferring.
+    /// Convenient function to transfer PRT to a recipient account that might not exist.
+    /// This would create the recipient account first, which also registers it to receive PRT, before transferring.
     public entry fun transfer(source: &signer, to: address, amount: u64) {
         if (!account::exists_at(to)) {
             create_account(to)
@@ -234,13 +234,13 @@ module aptos_framework::aptos_account {
         ensure_primary_fungible_store_exists(signer::address_of(account_signer));
     }
 
-    /// APT Primary Fungible Store specific specialized functions,
-    /// Utilized internally once migration of APT to FungibleAsset is complete.
+    /// PRT Primary Fungible Store specific specialized functions,
+    /// Utilized internally once migration of PRT to FungibleAsset is complete.
 
-    /// Convenient function to transfer APT to a recipient account that might not exist.
-    /// This would create the recipient APT PFS first, which also registers it to receive APT, before transferring.
+    /// Convenient function to transfer PRT to a recipient account that might not exist.
+    /// This would create the recipient PRT PFS first, which also registers it to receive PRT, before transferring.
     /// TODO: once migration is complete, rename to just "transfer_only" and make it an entry function (for cheapest way
-    /// to transfer APT) - if we want to allow APT PFS without account itself
+    /// to transfer PRT) - if we want to allow PRT PFS without account itself
     public(friend) entry fun fungible_transfer_only(
         source: &signer, to: address, amount: u64
     ) {
@@ -250,7 +250,7 @@ module aptos_framework::aptos_account {
 
         // use internal APIs, as they skip:
         // - owner, frozen and dispatchable checks
-        // as APT cannot be frozen or have dispatch, and PFS cannot be transfered
+        // as PRT cannot be frozen or have dispatch, and PFS cannot be transfered
         // (PFS could potentially be burned. regular transfer would permanently unburn the store.
         // Ignoring the check here has the equivalent of unburning, transfers, and then burning again)
         fungible_asset::withdraw_permission_check_by_address(
@@ -261,7 +261,7 @@ module aptos_framework::aptos_account {
         );
     }
 
-    /// Is balance from APT Primary FungibleStore at least the given amount
+    /// Is balance from PRT Primary FungibleStore at least the given amount
     public(friend) fun is_fungible_balance_at_least(
         account: address, amount: u64
     ): bool {
@@ -269,7 +269,7 @@ module aptos_framework::aptos_account {
         fungible_asset::is_address_balance_at_least(store_addr, amount)
     }
 
-    /// Burn from APT Primary FungibleStore for gas charge
+    /// Burn from PRT Primary FungibleStore for gas charge
     public(friend) fun burn_from_fungible_store_for_gas(
         ref: &BurnRef, account: address, amount: u64
     ) {
@@ -280,7 +280,7 @@ module aptos_framework::aptos_account {
         };
     }
 
-    /// Ensure that APT Primary FungibleStore exists (and create if it doesn't)
+    /// Ensure that PRT Primary FungibleStore exists (and create if it doesn't)
     inline fun ensure_primary_fungible_store_exists(owner: address): address {
         let store_addr = primary_fungible_store_address(owner);
         if (fungible_asset::store_exists(store_addr)) {
@@ -292,7 +292,7 @@ module aptos_framework::aptos_account {
         }
     }
 
-    /// Address of APT Primary Fungible Store
+    /// Address of PRT Primary Fungible Store
     inline fun primary_fungible_store_address(account: address): address {
         object::create_user_derived_object_address(account, @aptos_fungible_asset)
     }

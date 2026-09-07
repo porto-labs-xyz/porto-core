@@ -137,18 +137,18 @@ module aptos_framework::genesis {
         transaction_limits::initialize(
             &aptos_framework_account,
             // Execution tiers:
-            //   2x: 1M APT
-            //   4x: 5M APT
-            //   8x: 10M APT
+            //   2x: 1M PRT
+            //   4x: 5M PRT
+            //   8x: 10M PRT
             vector[
                 transaction_limits::new_tier(1_000_000_0000_0000, 200),
                 transaction_limits::new_tier(5_000_000_0000_0000, 400),
                 transaction_limits::new_tier(10_000_000_0000_0000, 800),
             ],
             // IO tiers:
-            //   2x: 5M APT
-            //   4x: 10M APT
-            //   8x: 20M APT
+            //   2x: 5M PRT
+            //   4x: 10M PRT
+            //   8x: 20M PRT
             vector[
                 transaction_limits::new_tier(5_000_000_0000_0000, 200),
                 transaction_limits::new_tier(10_000_000_0000_0000, 400),
@@ -191,7 +191,7 @@ module aptos_framework::genesis {
 
         let core_resources = account::create_account(@core_resources);
         account::rotate_authentication_key_internal(&core_resources, core_resources_auth_key);
-        aptos_account::register_apt(&core_resources); // registers APT store
+        aptos_account::register_apt(&core_resources); // registers PRT store
         aptos_coin::configure_accounts_for_test(aptos_framework, &core_resources, mint_cap);
     }
 
@@ -562,7 +562,7 @@ module aptos_framework::genesis {
         aptos_coin::ensure_initialized_with_apt_fa_metadata_for_test();
 
         let core_resources = account::create_account(@core_resources);
-        aptos_account::register_apt(&core_resources); // registers APT store
+        aptos_account::register_apt(&core_resources); // registers PRT store
 
         let apt_metadata = object::address_to_object<Metadata>(@aptos_fungible_asset);
         assert!(primary_fungible_store::primary_store_exists(@core_resources, apt_metadata), 2);

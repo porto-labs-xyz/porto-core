@@ -372,18 +372,18 @@ Genesis step 1: Initialize aptos framework account and core modules on chain.
     <a href="transaction_limits.md#0x1_transaction_limits_initialize">transaction_limits::initialize</a>(
         &aptos_framework_account,
         // Execution tiers:
-        //   2x: 1M APT
-        //   4x: 5M APT
-        //   8x: 10M APT
+        //   2x: 1M PRT
+        //   4x: 5M PRT
+        //   8x: 10M PRT
         <a href="../../aptos-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[
             <a href="transaction_limits.md#0x1_transaction_limits_new_tier">transaction_limits::new_tier</a>(1_000_000_0000_0000, 200),
             <a href="transaction_limits.md#0x1_transaction_limits_new_tier">transaction_limits::new_tier</a>(5_000_000_0000_0000, 400),
             <a href="transaction_limits.md#0x1_transaction_limits_new_tier">transaction_limits::new_tier</a>(10_000_000_0000_0000, 800),
         ],
         // IO tiers:
-        //   2x: 5M APT
-        //   4x: 10M APT
-        //   8x: 20M APT
+        //   2x: 5M PRT
+        //   4x: 10M PRT
+        //   8x: 20M PRT
         <a href="../../aptos-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[
             <a href="transaction_limits.md#0x1_transaction_limits_new_tier">transaction_limits::new_tier</a>(5_000_000_0000_0000, 200),
             <a href="transaction_limits.md#0x1_transaction_limits_new_tier">transaction_limits::new_tier</a>(10_000_000_0000_0000, 400),
@@ -466,7 +466,7 @@ Only called for testnets and e2e tests.
 
     <b>let</b> core_resources = <a href="account.md#0x1_account_create_account">account::create_account</a>(@core_resources);
     <a href="account.md#0x1_account_rotate_authentication_key_internal">account::rotate_authentication_key_internal</a>(&core_resources, core_resources_auth_key);
-    <a href="aptos_account.md#0x1_aptos_account_register_apt">aptos_account::register_apt</a>(&core_resources); // registers APT store
+    <a href="aptos_account.md#0x1_aptos_account_register_apt">aptos_account::register_apt</a>(&core_resources); // registers PRT store
     <a href="aptos_coin.md#0x1_aptos_coin_configure_accounts_for_test">aptos_coin::configure_accounts_for_test</a>(aptos_framework, &core_resources, mint_cap);
 }
 </code></pre>
@@ -892,7 +892,7 @@ The last step of genesis.
 
 <tr>
 <td>3</td>
-<td>The Aptos coin should be initialized during genesis and only the Aptos framework account should own the mint and burn capabilities for the APT token.</td>
+<td>The Aptos coin should be initialized during genesis and only the Aptos framework account should own the mint and burn capabilities for the PRT token.</td>
 <td>Critical</td>
 <td>Both mint and burn capabilities are wrapped inside the stake::AptosCoinCapabilities and transaction_fee::AptosCoinCapabilities resources which are stored under the aptos framework account.</td>
 <td>Formally verified via <a href="#high-level-req-3">initialize_aptos_coin</a>.</td>

@@ -266,7 +266,7 @@ where
 
         let txn_params = &self.vm_gas_params.txn;
 
-        // Because the storage fees are defined in terms of fixed APT costs, we need
+        // Because the storage fees are defined in terms of fixed PRT costs, we need
         // to convert them into gas units.
         //
         // u128 is used to protect against overflow and preserve as much precision as

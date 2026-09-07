@@ -1,13 +1,13 @@
 spec aptos_framework::aptos_coin {
     /// <high-level-req>
     /// No.: 1
-    /// Requirement: The native token, APT, must be initialized during genesis.
+    /// Requirement: The native token, PRT, must be initialized during genesis.
     /// Criticality: Medium
     /// Implementation: The initialize function is only called once, during genesis.
     /// Enforcement: Formally verified via [high-level-req-1](initialize).
     ///
     /// No.: 2
-    /// Requirement: The APT coin may only be created exactly once.
+    /// Requirement: The PRT coin may only be created exactly once.
     /// Criticality: Medium
     /// Implementation: The initialization function may only be called once.
     /// Enforcement: Enforced through the [https://github.com/aptos-labs/aptos-core/blob/main/aptos-move/framework/aptos-framework/sources/coin.move](coin)
@@ -22,7 +22,7 @@ spec aptos_framework::aptos_coin {
     /// Enforcement: Verified via [high-level-req-3](initialize).
 
     /// No.: 4
-    /// Requirement: Any type of operation on the APT coin should fail if the user has not registered for the coin.
+    /// Requirement: Any type of operation on the PRT coin should fail if the user has not registered for the coin.
     /// Criticality: Medium
     /// Implementation: Coin operations may succeed only on valid user coin registration.
     /// Enforcement: Enforced through the [https://github.com/aptos-labs/aptos-core/blob/main/aptos-move/framework/aptos-framework/sources/coin.move](coin)
@@ -43,8 +43,8 @@ spec aptos_framework::aptos_coin {
         aborts_if permissioned_signer::spec_is_permissioned_signer(aptos_framework);
         let addr = signer::address_of(aptos_framework);
         aborts_if addr != @aptos_framework;
-        aborts_if !string::spec_internal_check_utf8(b"Aptos Coin");
-        aborts_if !string::spec_internal_check_utf8(b"APT");
+        aborts_if !string::spec_internal_check_utf8(b"Porto Coin");
+        aborts_if !string::spec_internal_check_utf8(b"PRT");
         aborts_if exists<MintCapStore>(addr);
         aborts_if exists<coin::CoinInfo<AptosCoin>>(addr);
         aborts_if !exists<aggregator_factory::AggregatorFactory>(addr);

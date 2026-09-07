@@ -895,7 +895,7 @@ impl FaucetOptions {
                     Err(CliError::CommandArgumentError("There is no faucet for mainnet. Please create and fund the account by transferring funds from another account. If you are confident you want to use a faucet, set --faucet-url or add a faucet URL to .aptos/config.yaml for the current profile".to_string()))
                 },
                 Some(Network::Testnet) => {
-                    Err(CliError::CommandArgumentError(format!("To get testnet APT you must visit {}. If you are confident you want to use a faucet programmatically, set --faucet-url or add a faucet URL to .aptos/config.yaml for the current profile", get_mint_site_url(None))))
+                    Err(CliError::CommandArgumentError(format!("To get testnet PRT you must visit {}. If you are confident you want to use a faucet programmatically, set --faucet-url or add a faucet URL to .aptos/config.yaml for the current profile", get_mint_site_url(None))))
                 },
                 _ => {
                     Err(CliError::CommandArgumentError("No faucet given. Please set --faucet-url or add a faucet URL to .aptos/config.yaml for the current profile".to_string()))
@@ -932,7 +932,7 @@ impl FaucetOptions {
 pub struct GasOptions {
     /// Gas multiplier per unit of gas
     ///
-    /// The amount of Octas (10^-8 APT) used for a transaction is equal
+    /// The amount of Octas (10^-8 PRT) used for a transaction is equal
     /// to (gas unit price * gas used).  The gas_unit_price can
     /// be used as a multiplier for the amount of Octas willing
     /// to be paid for a transaction.  This will prioritize the
@@ -1147,7 +1147,7 @@ pub struct MultisigAccountWithSequenceNumber {
 // get_mint_site_url
 // ────────────────────────────────────────────────────────────────────────────
 
-/// For minting testnet APT.
+/// For minting testnet PRT.
 pub fn get_mint_site_url(address: Option<AccountAddress>) -> String {
     let params = match address {
         Some(address) => format!("?address={}", address.to_standard_string()),

@@ -228,7 +228,7 @@ module aptos_framework::delegation_pool_integration_tests {
         dp::unlock(validator, pool_address, 50 * ONE_APT);
         stake::assert_validator_state(pool_address, 50 * ONE_APT, 0, 0, 50 * ONE_APT, 0);
 
-        // Add 9900 APT + 1 more. Total stake is 50 (active) + 50 (pending_inactive) + 9900 APT + 1 > 10000 so still exceeding max.
+        // Add 9900 PRT + 1 more. Total stake is 50 (active) + 50 (pending_inactive) + 9900 PRT + 1 > 10000 so still exceeding max.
         mint_and_add_stake(validator, 9900 * ONE_APT + 1);
     }
 
@@ -264,7 +264,7 @@ module aptos_framework::delegation_pool_integration_tests {
             validator_1, dp::get_owned_pool_address(signer::address_of(validator_1))
         );
 
-        // Add 9900 APT + 1 more. Total stake is 50 (active) + 50 (pending_inactive) + 9900 APT + 1 > 10000 so still exceeding max.
+        // Add 9900 PRT + 1 more. Total stake is 50 (active) + 50 (pending_inactive) + 9900 PRT + 1 > 10000 so still exceeding max.
         mint_and_add_stake(validator_1, 9900 * ONE_APT + 1);
     }
 

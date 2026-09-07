@@ -187,7 +187,7 @@ crate::gas_schedule::macros::define_gas_parameters!(
         [
             storage_fee_per_state_slot: FeePerSlot,
             { 14.. => "storage_fee_per_state_slot" },
-            // 8 million APT for 2 billion state slots
+            // 8 million PRT for 2 billion state slots
             400_000,
         ],
         [
@@ -198,7 +198,7 @@ crate::gas_schedule::macros::define_gas_parameters!(
         [
             storage_fee_per_state_byte: FeePerByte,
             { 14.. => "storage_fee_per_state_byte" },
-            // 8 million APT for 2 TB state bytes
+            // 8 million PRT for 2 TB state bytes
             400,
         ],
         [
@@ -234,7 +234,7 @@ crate::gas_schedule::macros::define_gas_parameters!(
         [
             max_storage_fee: Fee,
             { 7.. => "max_storage_fee" },
-            20_0000_0000, // 20 APT
+            20_0000_0000, // 20 PRT
         ],
         [
             max_storage_fee_gov: Fee,

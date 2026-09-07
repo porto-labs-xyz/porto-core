@@ -2389,7 +2389,7 @@ module aptos_framework::delegation_pool {
         // zero `add_stake` fee as validator is not producing rewards this epoch
         assert!(get_add_stake_fee(pool_address, 1000000 * ONE_APT) == 0, 0);
 
-        // add 1M APT, join the validator set and activate this stake
+        // add 1M PRT, join the validator set and activate this stake
         stake::mint(validator, 1000000 * ONE_APT);
         add_stake(validator, pool_address, 1000000 * ONE_APT);
 
@@ -3654,7 +3654,7 @@ module aptos_framework::delegation_pool {
         // 10087349999 pending_inactive stake * 1.008735
         assert_delegation(delegator2_address, pool_address, 10807241561, 10175463001, 0);
         unlock(delegator2, pool_address, 100 * ONE_APT);
-        // 10807241561 - 100 APT < `MIN_COINS_ON_SHARES_POOL` thus active stake is entirely unlocked
+        // 10807241561 - 100 PRT < `MIN_COINS_ON_SHARES_POOL` thus active stake is entirely unlocked
         assert_delegation(delegator2_address, pool_address, 0, 0, 10807241561);
         end_aptos_epoch();
 
