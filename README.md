@@ -60,7 +60,7 @@ memory optimization are not a concern at this scale.
 Porto's own Move modules (Stream Accounting, Payout Splitter, Governance Parameters) are later
 work, after the stripping and rebranding of this fork is complete.
 
-## Upstream
+## Upstream foundation
 
 Porto Chain keeps Aptos's `AptosMoveVM`, Move language and VM, AptosBFT consensus, staking and
 delegation, governance, and the coin / fungible-asset token standard. See `CLAUDE.md` for the
