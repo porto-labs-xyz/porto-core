@@ -2,6 +2,15 @@
 
 Closes #
 
+### Codex Cloud provenance
+
+| Field | Value |
+| --- | --- |
+| Cloud task | |
+| Model | `gpt-5.6-terra` |
+| Reasoning | `medium` |
+| Environment | `porto-core` |
+
 ### Owned paths
 
 ### Acceptance evidence

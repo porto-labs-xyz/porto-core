@@ -13,8 +13,12 @@ Use the current London specification in `porto-labs-xyz/docs`, especially `londo
 3. Use an isolated branch and worktree. Do not edit a path owned by another active lane.
 4. Update fixtures and schemas with any contract change.
 5. Run the relevant Rust, Move and TypeScript checks. Report testnet, fixture and production evidence separately.
-6. Open a pull request. Never merge, deploy, change GitHub protections or move funds.
+6. Open a pull request with the exact Codex Cloud task URL, model, reasoning level, issue and environment. Never merge, deploy, change GitHub protections or move funds.
 
 ## Safety and evidence
 
 All money values use integer units. External chain actions are durable intents, not atomic with off-chain effects. Testnet proves integration only. A submitted transaction, an indexer display or a receipt does not prove settlement, listener attention or production readiness.
+
+## Cloud task provenance
+
+Every Codex Cloud task must be created with `gpt-5.6-terra` and Medium reasoning. Its resulting pull request must include the task URL, the selected model and reasoning, the linked issue, the cloud environment and exact test output. A GitHub PR cannot independently prove which model ran it, so the Codex task details remain the primary evidence. If those details are unavailable, mark the model as unverified rather than guessing.
