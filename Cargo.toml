@@ -1,0 +1,13 @@
+[workspace]
+members = [
+  "crates/core-domain",
+  "crates/services",
+  "crates/node",
+  "crates/verifier",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+license = "Apache-2.0"
+repository = "https://github.com/porto-labs-xyz/porto-core"

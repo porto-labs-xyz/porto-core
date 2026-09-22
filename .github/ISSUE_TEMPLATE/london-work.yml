@@ -1,0 +1,33 @@
+name: London 0.1.0 work item
+description: A bounded, agent-ready implementation unit.
+title: "[London]: "
+labels: ["status:ready"]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: The precise outcome and London work package or acceptance IDs.
+    validations:
+      required: true
+  - type: textarea
+    id: paths
+    attributes:
+      label: Owned and forbidden paths
+      description: State exactly what this issue may and may not change.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Link blocking issues, schema versions and source specifications.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance and evidence
+      description: Required tests and the highest permitted proof level.
+    validations:
+      required: true
