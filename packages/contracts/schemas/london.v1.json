@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.portolabs.xyz/london/v1/schema.json",
+  "title": "London v1 shared protocol schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_config", "funding_period", "rights_snapshot", "usage_batch"],
+  "properties": {
+    "schema_version": { "const": "london.v1" },
+    "protocol_config": { "$ref": "#/$defs/protocolConfig" },
+    "funding_period": { "$ref": "#/$defs/fundingPeriod" },
+    "rights_snapshot": { "$ref": "#/$defs/rightsSnapshot" },
+    "usage_batch": { "$ref": "#/$defs/usageBatch" }
+  },
+  "$defs": {
+    "opaqueId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "aptosAddress": { "type": "string", "pattern": "^0x[0-9a-f]{64}$" },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "u64": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,19})$" },
+    "protocolConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_version", "settlement_asset", "administrator", "coordinator", "limits"],
+      "properties": {
+        "package_version": { "const": "london.v1" },
+        "settlement_asset": { "$ref": "#/$defs/aptosAddress" },
+        "administrator": { "$ref": "#/$defs/aptosAddress" },
+        "coordinator": { "$ref": "#/$defs/aptosAddress" },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["max_usage_units_per_batch", "max_buckets_per_settlement_page"],
+          "properties": {
+            "max_usage_units_per_batch": { "$ref": "#/$defs/u64" },
+            "max_buckets_per_settlement_page": { "$ref": "#/$defs/u64" }
+          }
+        }
+      }
+    },
+    "fundingPeriod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["period_id", "funded_amount", "policy_hash"],
+      "properties": {
+        "period_id": { "$ref": "#/$defs/opaqueId" },
+        "funded_amount": { "$ref": "#/$defs/u64" },
+        "policy_hash": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "rightsSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["work_id", "version", "beneficiaries", "basis_points"],
+      "properties": {
+        "work_id": { "$ref": "#/$defs/opaqueId" },
+        "version": { "$ref": "#/$defs/u64" },
+        "beneficiaries": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/aptosAddress" } },
+        "basis_points": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/u64" } }
+      }
+    },
+    "usageBatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["period_id", "lane_id", "sequence_start", "sequence_end", "bucket_id", "payload_digest", "aggregate_usage"],
+      "properties": {
+        "period_id": { "$ref": "#/$defs/opaqueId" },
+        "lane_id": { "$ref": "#/$defs/opaqueId" },
+        "sequence_start": { "$ref": "#/$defs/u64" },
+        "sequence_end": { "$ref": "#/$defs/u64" },
+        "bucket_id": { "$ref": "#/$defs/opaqueId" },
+        "payload_digest": { "$ref": "#/$defs/digest" },
+        "aggregate_usage": { "$ref": "#/$defs/u64" }
+      }
+    }
+  }
+}
