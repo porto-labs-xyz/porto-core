@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check src/main.js"
+    "check": "node --check src/main.js",
+    "test": "node --test src/main.test.js"
   }
 }
