@@ -7,3 +7,4 @@ repository.workspace = true
 
 [dependencies]
 porto-core-domain = { path = "../core-domain" }
+sha2 = "0.10"
