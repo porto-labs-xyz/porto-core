@@ -320,7 +320,7 @@ fn write_new_atomically(destination: &Path, bytes: &[u8]) -> io::Result<()> {
     write_file_sync(&temporary, bytes)?;
     match fs::rename(&temporary, destination) {
         Ok(()) => Ok(()),
-        Err(error) if destination.exists() => {
+        Err(_error) if destination.exists() => {
             fs::remove_file(temporary)?;
             Ok(())
         }
