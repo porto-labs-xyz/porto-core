@@ -1,0 +1,17 @@
+[package]
+name = "porto_london"
+version = "0.1.0"
+authors = []
+
+[addresses]
+porto_london = "_"
+
+[dev-addresses]
+porto_london = "0xcafe"
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-framework.git"
+rev = "ad8f79ad0f75e38e869d2e66509b9f7511aa6c86"
+subdir = "aptos-framework"
+
+[dev-dependencies]
