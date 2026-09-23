@@ -1,0 +1,12 @@
+{
+  "name": "@porto/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Versioned London protocol schemas and deterministic compatibility fixtures.",
+  "scripts": {
+    "compatibility": "node scripts/check-compatibility.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
